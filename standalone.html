@@ -64,7 +64,11 @@ html, body {
 
 /* ---------------- top bar ---------------- */
 #topbar {
+<<<<<<< HEAD
   height: 48px;
+=======
+  height: 58px;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding: 0 16px;
   background: var(--bench-soft);
@@ -109,10 +113,17 @@ html, body {
 
 /* ---------------- layout ---------------- */
 #app {
+<<<<<<< HEAD
   height: calc(100% - 48px);
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr) 280px;
   grid-template-rows: minmax(0, 1fr) 112px;
+=======
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr) 340px;
+  grid-template-rows: minmax(0, 1fr) 210px;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   grid-template-areas: "left centre right" "bottom bottom bottom";
   gap: 1px;
   background: #0f1416;
@@ -123,14 +134,22 @@ html, body {
 #bottom { grid-area: bottom; }
 
 aside, #bottom { background: var(--panel); overflow-y: auto; }
+<<<<<<< HEAD
 aside { padding: 10px 12px; }
+=======
+aside { padding: 14px; }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
 aside h2 {
   font-size: 11px; text-transform: none; letter-spacing: .02em;
   color: var(--ink-soft); font-weight: 600; margin: 0 0 8px;
   padding-bottom: 6px; border-bottom: 1px solid var(--rule);
 }
+<<<<<<< HEAD
 aside section { margin-bottom: 12px; }
+=======
+aside section { margin-bottom: 20px; }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
 /* ---------------- experiment list ---------------- */
 .exp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
@@ -188,6 +207,7 @@ aside section { margin-bottom: 12px; }
 #object-label.visible { opacity: 1; }
 
 #bench-hud {
+<<<<<<< HEAD
   position: absolute; top: 8px; left: 8px; width: 138px;
   background: rgba(244,242,236,.93); border: 1px solid rgba(0,0,0,.15);
   border-radius: var(--radius); box-shadow: var(--shadow); padding: 6px 8px;
@@ -220,6 +240,39 @@ aside section { margin-bottom: 12px; }
 
 #toast-stack {
   position: absolute; right: 8px; bottom: 8px; width: 280px; max-height: 45%; overflow: hidden;
+=======
+  position: absolute; top: 14px; left: 14px; width: 224px;
+  background: rgba(244,242,236,.95); border: 1px solid rgba(0,0,0,.15);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 11px 12px;
+}
+.hud-title { font-size: 11px; color: var(--ink-soft); margin-bottom: 7px; }
+#bench-hud dl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin: 0 0 8px; }
+#bench-hud dt { font-size: 10.5px; color: var(--ink-soft); }
+#bench-hud dd { margin: 0; font-size: 15px; font-weight: 600; }
+.hud-row { display: flex; justify-content: space-between; font-size: 11.5px; padding: 2px 0; }
+.hud-row span:first-child { color: var(--ink-soft); }
+.hud-hint { font-size: 10.5px; color: var(--ink-soft); margin: 8px 0 0; }
+
+.stopcock {
+  width: 100%; margin-top: 9px; padding: 8px; font: inherit; font-size: 12.5px; font-weight: 600;
+  border-radius: 3px; border: 1px solid var(--teal); background: var(--teal); color: #f2fbf8; cursor: pointer;
+}
+.stopcock.open { background: var(--danger); border-color: var(--danger); }
+#flow-buttons { width: 100%; margin-top: 6px; background: var(--panel-2); }
+#flow-buttons button { flex: 1; color: var(--ink-soft); }
+#flow-buttons button.active { background: #fff; color: var(--ink); }
+
+#selection-card {
+  position: absolute; left: 14px; bottom: 14px; max-width: 320px;
+  background: rgba(244,242,236,.95); border: 1px solid rgba(0,0,0,.15);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 8px 11px;
+}
+#selection-card strong { display: block; font-size: 13px; }
+#selection-card span { font-size: 11.5px; color: var(--ink-soft); }
+
+#toast-stack {
+  position: absolute; right: 14px; bottom: 14px; width: 330px;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
 }
 .toast {
@@ -283,23 +336,37 @@ aside section { margin-bottom: 12px; }
 .steps li.current .mark { background: var(--amber); color: #1b1204; }
 
 /* ---------------- tables ---------------- */
+<<<<<<< HEAD
 table.data { width: 100%; border-collapse: collapse; font-size: 10.5px; }
 table.data th, table.data td { text-align: left; padding: 1px 5px; border-bottom: 1px solid var(--rule); }
+=======
+table.data { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.data th, table.data td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--rule); }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 table.data th { font-weight: 500; color: var(--ink-soft); width: 55%; }
 table.data td { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
 table.data.wide th { width: auto; }
 table.data thead th { color: var(--ink); border-bottom: 1px solid var(--ink-soft); }
 
 .formula {
+<<<<<<< HEAD
   font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
   background: var(--panel-2); padding: 2px 6px; border-radius: 3px; margin: 0 0 3px;
 }
 .working {
   font-family: "IBM Plex Mono", monospace; font-size: 10px; white-space: pre-wrap;
+=======
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px;
+  background: var(--panel-2); padding: 6px 8px; border-radius: 3px; margin: 0 0 6px;
+}
+.working {
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; white-space: pre-wrap;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   margin: 0; color: var(--ink-soft);
 }
 
 .result-figure { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+<<<<<<< HEAD
 .result-figure .value { font-size: 18px; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
 .result-figure .unit { font-size: 11px; color: var(--ink-soft); }
 .remark { font-size: 10.5px; color: var(--ink-soft); margin: 0 0 3px; }
@@ -310,18 +377,38 @@ table.data thead th { color: var(--ink); border-bottom: 1px solid var(--ink-soft
 .bottom-col h3 {
   margin: 0 0 4px; font-size: 10px; font-weight: 600; color: var(--ink-soft);
   padding-bottom: 2px; border-bottom: 1px solid var(--rule);
+=======
+.result-figure .value { font-size: 30px; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+.result-figure .unit { font-size: 13px; color: var(--ink-soft); }
+.remark { font-size: 12px; color: var(--ink-soft); margin: 0 0 8px; }
+
+/* ---------------- bottom ---------------- */
+#bottom { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #0f1416; }
+.bottom-col { background: var(--panel); padding: 12px 14px; overflow-y: auto; }
+.bottom-col h3 {
+  margin: 0 0 8px; font-size: 11px; font-weight: 600; color: var(--ink-soft);
+  padding-bottom: 5px; border-bottom: 1px solid var(--rule);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 }
 
 /* ---------------- accessibility & narrow screens ---------------- */
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
 
 @media (max-width: 1240px) {
+<<<<<<< HEAD
   #app { grid-template-columns: 180px minmax(0,1fr) 250px; }
+=======
+  #app { grid-template-columns: 214px minmax(0,1fr) 296px; }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 }
 @media (max-width: 1024px) {
   #app {
     grid-template-columns: 1fr;
+<<<<<<< HEAD
     grid-template-rows: 60vh auto auto auto;
+=======
+    grid-template-rows: 46vh auto auto auto;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     grid-template-areas: "centre" "right" "left" "bottom";
     height: auto;
   }
@@ -2754,7 +2841,11 @@ class Laboratory {
 
     // bench carcass and black epoxy top
     const carcass = new THREE.Mesh(
+<<<<<<< HEAD
       new THREE.BoxGeometry(20, 8.6, 5.4),
+=======
+      new THREE.BoxGeometry(17, 8.6, 5.4),
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       new THREE.MeshStandardMaterial({ color: 0x8c6d4f, roughness: 0.8 }),
     );
     carcass.position.set(0, 4.3, -0.6);
@@ -2762,7 +2853,11 @@ class Laboratory {
     this.root.add(carcass);
 
     const top = new THREE.Mesh(
+<<<<<<< HEAD
       new THREE.BoxGeometry(20.6, 0.4, 5.8),
+=======
+      new THREE.BoxGeometry(17.6, 0.4, 5.8),
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       new THREE.MeshStandardMaterial({ color: 0x2b2f31, roughness: 0.45, metalness: 0.05 }),
     );
     top.position.set(0, BENCH_TOP_Y - 0.2, -0.6);
@@ -2771,7 +2866,11 @@ class Laboratory {
     this.benchTop = top;
 
     // drawer fronts
+<<<<<<< HEAD
     for (let i = -4; i <= 4; i++) {
+=======
+    for (let i = -3; i <= 3; i++) {
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       const d = new THREE.Mesh(
         new THREE.BoxGeometry(2.2, 1.0, 0.08),
         new THREE.MeshStandardMaterial({ color: 0x9a7a58, roughness: 0.7 }),
@@ -2786,23 +2885,39 @@ class Laboratory {
 
     // wall shelf with spare stock bottles
     const shelfMat = new THREE.MeshStandardMaterial({ color: 0xe6e2d8, roughness: 0.7 });
+<<<<<<< HEAD
     const shelf = new THREE.Mesh(new THREE.BoxGeometry(19, 0.16, 1.5), shelfMat);
     shelf.position.set(0, 13.4, -2.8);
     shelf.castShadow = true; shelf.receiveShadow = true;
     this.root.add(shelf);
     for (const x of [-9, 0, 9]) {
+=======
+    const shelf = new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 1.5), shelfMat);
+    shelf.position.set(0, 13.4, -2.8);
+    shelf.castShadow = true; shelf.receiveShadow = true;
+    this.root.add(shelf);
+    for (const x of [-7.6, 0, 7.6]) {
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.2, 1.3), shelfMat);
       bracket.position.set(x, 12.8, -2.85);
       this.root.add(bracket);
     }
     const stockColors = [0xdfe9ee, 0xe9e3d6, 0xd7e6df, 0xe7d9e2, 0xdde4ee, 0xe4e9d8];
+<<<<<<< HEAD
     for (let i = 0; i < 14; i++) {
+=======
+    for (let i = 0; i < 12; i++) {
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       const b = createReagentBottle({
         name: 'Stock', subtitle: '', color: stockColors[i % stockColors.length],
         height: 0.8 + (i % 3) * 0.12, radius: 0.19, amber: i % 4 === 0,
       });
       b.userData.interactive = false;
+<<<<<<< HEAD
       b.position.set(-8.3 + i * 1.28, 13.48, -2.8);
+=======
+      b.position.set(-7 + i * 1.28, 13.48, -2.8);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.root.add(b);
     }
 
@@ -2811,11 +2926,19 @@ class Laboratory {
       new THREE.BoxGeometry(2.4, 0.5, 1.8),
       new THREE.MeshStandardMaterial({ color: 0xa7adb0, roughness: 0.35, metalness: 0.7 }),
     );
+<<<<<<< HEAD
     sink.position.set(8.9, BENCH_TOP_Y - 0.25, -1.1);
     this.root.add(sink);
     const tapCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(8.9, BENCH_TOP_Y, -2.0), new THREE.Vector3(8.9, BENCH_TOP_Y + 1.4, -2.0),
       new THREE.Vector3(8.9, BENCH_TOP_Y + 1.7, -1.6), new THREE.Vector3(8.9, BENCH_TOP_Y + 1.5, -1.15),
+=======
+    sink.position.set(7.4, BENCH_TOP_Y - 0.25, -1.1);
+    this.root.add(sink);
+    const tapCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(7.4, BENCH_TOP_Y, -2.0), new THREE.Vector3(7.4, BENCH_TOP_Y + 1.4, -2.0),
+      new THREE.Vector3(7.4, BENCH_TOP_Y + 1.7, -1.6), new THREE.Vector3(7.4, BENCH_TOP_Y + 1.5, -1.15),
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     ]);
     const tap = new THREE.Mesh(new THREE.TubeGeometry(tapCurve, 20, 0.06, 10, false), MATERIALS.steel);
     this.root.add(tap);
@@ -2824,7 +2947,11 @@ class Laboratory {
   /* -------------------- titration station -------------------- */
 
   buildTitrationStation() {
+<<<<<<< HEAD
     const X = -1.5;
+=======
+    const X = -1.0;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     const stand = createBuretteStand({ rodHeight: 5.6 });
     stand.rotation.y = -Math.PI / 2;    // rod to the back, clamp facing the front
@@ -2854,17 +2981,29 @@ class Laboratory {
     this.tipWorld = new THREE.Vector3(X, buretteY + burette.userData.tipY, 0.02);
 
     const stirrer = createMagneticStirrer();
+<<<<<<< HEAD
     this.add(stirrer, X + 2.0, BENCH_TOP_Y, 0.3);
     this.register('stirrer', stirrer);
 
     const pipette = createPipette();
     this.add(pipette, X + 1.0, BENCH_TOP_Y, 1.9);
+=======
+    this.add(stirrer, X + 2.0, BENCH_TOP_Y, 0.4);
+    this.register('stirrer', stirrer);
+
+    const pipette = createPipette();
+    this.add(pipette, X + 1.0, BENCH_TOP_Y, 1.55);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     pipette.rotation.z = 0.0;
     this.register('pipette', pipette);
     pipette.userData.home = pipette.position.clone();
 
     const wash = createWashBottle();
+<<<<<<< HEAD
     this.add(wash, X - 1.3, BENCH_TOP_Y, 1.8);
+=======
+    this.add(wash, X - 1.15, BENCH_TOP_Y, 1.5);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('washbottle', wash);
   }
 
@@ -2886,7 +3025,11 @@ class Laboratory {
       });
       b.userData.reagentKey = key;
       b.userData.name = r.name;
+<<<<<<< HEAD
       this.add(b, -6.2 + i * 0.85, BENCH_TOP_Y, -2.0);
+=======
+      this.add(b, -4.9 + i * 0.78, BENCH_TOP_Y, -2.0);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.register(`bottle_${key}`, b);
     });
 
@@ -2905,7 +3048,11 @@ class Laboratory {
       });
       b.userData.reagentKey = key;
       b.userData.name = r.name;
+<<<<<<< HEAD
       this.add(b, -6.2 + i * 0.7, BENCH_TOP_Y, -1.1);
+=======
+      this.add(b, -4.9 + i * 0.62, BENCH_TOP_Y, -1.15);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.register(`bottle_${key}`, b);
     });
 
@@ -2920,7 +3067,11 @@ class Laboratory {
       });
       b.userData.sampleKey = key;
       b.userData.name = s.name;
+<<<<<<< HEAD
       this.add(b, 1.6 + i * 0.85, BENCH_TOP_Y, -2.0);
+=======
+      this.add(b, 1.4 + i * 0.8, BENCH_TOP_Y, -2.0);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.register(`sample_${key}`, b);
     });
   }
@@ -2929,11 +3080,16 @@ class Laboratory {
 
   buildInstrumentStation() {
     const ph = createPHMeter();
+<<<<<<< HEAD
     this.add(ph, 2.6, BENCH_TOP_Y, 0.2);
+=======
+    this.add(ph, 1.9, BENCH_TOP_Y, 0.4);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('phmeter', ph);
 
     // beaker directly under the pH electrode
     const phBeaker = createBeaker({ name: 'Beaker 100 mL (pH)', capacity: 100, radius: 0.33, height: 0.62, action: 'BEAKER' });
+<<<<<<< HEAD
     this.add(phBeaker, 2.6 + 1.34, BENCH_TOP_Y, 0.2);
     this.register('beaker_ph', phBeaker);
 
@@ -2951,16 +3107,43 @@ class Laboratory {
 
     const vial = createSampleVial();
     this.add(vial, 6.9, BENCH_TOP_Y, 1.8);
+=======
+    this.add(phBeaker, 1.9 + 1.34, BENCH_TOP_Y, 0.4);
+    this.register('beaker_ph', phBeaker);
+
+    const cond = createConductivityMeter();
+    this.add(cond, 4.6, BENCH_TOP_Y, -0.35);
+    this.register('condmeter', cond);
+
+    const condBeaker = createBeaker({ name: 'Beaker 100 mL (EC)', capacity: 100, radius: 0.33, height: 0.62, action: 'BEAKER' });
+    this.add(condBeaker, 4.6 + 0.95, BENCH_TOP_Y, -0.35);
+    this.register('beaker_cond', condBeaker);
+
+    const turb = createTurbidityMeter();
+    this.add(turb, 6.3, BENCH_TOP_Y, 1.2);
+    this.register('turbmeter', turb);
+
+    const vial = createSampleVial();
+    this.add(vial, 5.4, BENCH_TOP_Y, 1.6);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('vial', vial);
     vial.userData.home = vial.position.clone();
 
     const thermo = createThermometer();
+<<<<<<< HEAD
     this.add(thermo, 4.0, BENCH_TOP_Y, 1.8);
+=======
+    this.add(thermo, 3.1, BENCH_TOP_Y, 1.6);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     thermo.rotation.z = 0.12;
     this.register('thermometer', thermo);
 
     const timer = createStopwatch();
+<<<<<<< HEAD
     this.add(timer, 3.0, BENCH_TOP_Y, 1.8);
+=======
+    this.add(timer, 2.3, BENCH_TOP_Y, 1.7);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('timer', timer);
   }
 
@@ -2968,6 +3151,7 @@ class Laboratory {
 
   buildPreparationStation() {
     const balance = createBalance();
+<<<<<<< HEAD
     this.add(balance, -8.0, BENCH_TOP_Y, -0.2);
     this.register('balance', balance);
 
@@ -2985,6 +3169,25 @@ class Laboratory {
 
     const cylinder = createMeasuringCylinder({ capacity: 100 });
     this.add(cylinder, -4.8, BENCH_TOP_Y, 1.6);
+=======
+    this.add(balance, -6.6, BENCH_TOP_Y, -0.3);
+    this.register('balance', balance);
+
+    const volumetric = createVolumetricFlask();
+    this.add(volumetric, -6.3, BENCH_TOP_Y, 1.3);
+    this.register('volumetric', volumetric);
+
+    const funnel = createFunnel();
+    this.add(funnel, -5.4, BENCH_TOP_Y, 1.5);
+    this.register('funnel', funnel);
+
+    const prepBeaker = createBeaker({ name: 'Beaker 250 mL', capacity: 250, radius: 0.4, height: 0.68 });
+    this.add(prepBeaker, -4.6, BENCH_TOP_Y, 1.4);
+    this.register('beaker_prep', prepBeaker);
+
+    const cylinder = createMeasuringCylinder({ capacity: 100 });
+    this.add(cylinder, -3.6, BENCH_TOP_Y, 1.4);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('cylinder', cylinder);
   }
 
@@ -2992,22 +3195,38 @@ class Laboratory {
 
   buildAccessories() {
     const rack = createTestTubeRack({ count: 6 });
+<<<<<<< HEAD
     this.add(rack, -2.2, BENCH_TOP_Y, -2.0);
+=======
+    this.add(rack, -2.4, BENCH_TOP_Y, -2.0);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('rack', rack);
 
     const rod = createGlassRod();
     rod.rotation.z = Math.PI / 2;
     rod.rotation.y = 0.35;
+<<<<<<< HEAD
     this.add(rod, -3.7, BENCH_TOP_Y + 0.025, 2.1);
     this.register('rod', rod);
 
     const dropper = createDropper();
     this.add(dropper, -2.9, BENCH_TOP_Y, 2.0);
+=======
+    this.add(rod, -2.6, BENCH_TOP_Y + 0.025, 1.7);
+    this.register('rod', rod);
+
+    const dropper = createDropper();
+    this.add(dropper, -1.9, BENCH_TOP_Y, 1.85);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     dropper.rotation.z = 0.25;
     this.register('dropper', dropper);
 
     const waste = createWasteJar();
+<<<<<<< HEAD
     this.add(waste, 8.9, BENCH_TOP_Y, 1.3);
+=======
+    this.add(waste, 7.4, BENCH_TOP_Y, 0.9);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('waste', waste);
   }
 
@@ -3857,6 +4076,7 @@ class ExperimentController {
     return exp?.titrant || 'edta';
   }
 
+<<<<<<< HEAD
   /**
    * Carry a vessel over `target`, tilt it so its LIP (mouth) sits directly
    * above the target's axis, run `pourFn({ lip, mouth })`, then put it back.
@@ -3892,17 +4112,27 @@ class ExperimentController {
     await this.anim.arcTo(vessel, home, 1.0, 0.8);
   }
 
+=======
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   async rinseBurette() {
     const burette = this.lab.objects.burette;
     const key = this.titrantKey;
     const reagent = REAGENTS[key];
     this.setPhase(PHASE.RINSE);
     const bottle = this.lab.objects[`bottle_${key}`];
+<<<<<<< HEAD
 
     await this.tiltPour(bottle, burette, async ({ lip, mouth }) => {
       await this.anim.pour(lip, mouth, 1.0, reagent.color);
       await this.anim.fillTo(burette.userData.liquid, 0.18, 0.7);
     });
+=======
+    const top = burette.localToWorld(new THREE.Vector3(0, burette.userData.columnTopY + 0.1, 0));
+    const from = bottle.localToWorld(new THREE.Vector3(0, bottle.userData.pourY, 0));
+
+    await this.anim.pour(from, top, 1.0, reagent.color);
+    await this.anim.fillTo(burette.userData.liquid, 0.18, 0.7);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     burette.userData.liquid.setColor(reagent.color);
     const tip = this.lab.getBuretteTip();
     for (let i = 0; i < 4; i++) this.anim.emitDrop(tip, tip.clone().setY(tip.y - 1.6), reagent.color, 0.4);
@@ -3922,12 +4152,22 @@ class ExperimentController {
     this.setPhase(PHASE.FILL);
 
     const bottle = this.lab.objects[`bottle_${key}`];
+<<<<<<< HEAD
     burette.userData.liquid.setColor(reagent.color);
     await this.tiltPour(bottle, burette, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth, reagent.color);
       await this.anim.fillTo(burette.userData.liquid, 1.0, 2.2, EASE.out);
       this.anim.hideStream();
     });
+=======
+    const from = bottle.localToWorld(new THREE.Vector3(0, bottle.userData.pourY, 0));
+    const top = burette.localToWorld(new THREE.Vector3(0, burette.userData.columnTopY + 0.1, 0));
+
+    burette.userData.liquid.setColor(reagent.color);
+    this.anim.showStream(from, top, reagent.color);
+    await this.anim.fillTo(burette.userData.liquid, 1.0, 2.2, EASE.out);
+    this.anim.hideStream();
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     // expel the air bubble: run a little through the tip and settle on the zero mark
     const tip = this.lab.getBuretteTip();
@@ -4179,6 +4419,7 @@ class ExperimentController {
     this.setPhase(PHASE.ADD_REAGENT);
 
     const dose = reagent.doseVolume_mL || 1;
+<<<<<<< HEAD
     await this.tiltPour(bottle, flask, async ({ lip, mouth }) => {
       if (reagent.doseDrops) {
         for (let i = 0; i < reagent.doseDrops; i++) {
@@ -4189,6 +4430,23 @@ class ExperimentController {
         await this.anim.pour(lip, mouth, 1.1, reagent.color);
       }
     });
+=======
+    const home = bottle.position.clone();
+    const overFlask = flask.position.clone().setY(this.lab.getFlaskMouth().y + 0.55);
+
+    await this.anim.arcTo(bottle, overFlask, 1.0, 0.8);
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, -0.85), 0.4);
+
+    const mouth = this.lab.getFlaskMouth();
+    if (reagent.doseDrops) {
+      for (let i = 0; i < reagent.doseDrops; i++) {
+        this.anim.emitDrop(mouth.clone().setY(mouth.y + 0.45), mouth, reagent.color, 0.4);
+        await this.anim.wait(0.34);
+      }
+    } else {
+      await this.anim.pour(mouth.clone().setY(mouth.y + 0.5), mouth, 1.1, reagent.color);
+    }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     this.flaskSolution.addReagent(key, dose);
     applySolution(flask, this.flaskSolution);
@@ -4196,6 +4454,11 @@ class ExperimentController {
       await this.anim.colorTo(flask.userData.liquid, INDICATOR_COLORS[key].before, 1.0);
     }
 
+<<<<<<< HEAD
+=======
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, 0), 0.35);
+    await this.anim.arcTo(bottle, home, 1.0, 0.8);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     await this.anim.swirl(flask, 2, 1.1);
 
     const run = this.state.run;
@@ -4279,6 +4542,7 @@ class ExperimentController {
     const beaker = this.lab.beakerFor(exp.id);
     const sample = this.state.sample;
     const bottle = this.lab.sampleBottle(this.state.sampleKey);
+<<<<<<< HEAD
     this.beakerSolution.reset();
     await this.tiltPour(bottle, beaker, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth.clone().setY(mouth.y - 0.3), sample.color, 0.035);
@@ -4292,6 +4556,27 @@ class ExperimentController {
       });
       this.anim.hideStream();
     });
+=======
+    const home = bottle.position.clone();
+    const over = beaker.position.clone().setY(beaker.position.y + 1.15);
+
+    await this.anim.arcTo(bottle, over, 1.1, 0.8);
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, -0.9), 0.4);
+    const mouth = beaker.position.clone().setY(beaker.position.y + 0.6);
+    this.anim.showStream(over.clone().setY(over.y - 0.25), mouth, sample.color, 0.035);
+    this.beakerSolution.reset();
+    await this.anim.tween({
+      duration: 1.8,
+      onUpdate: (e) => {
+        this.beakerSolution.volume_mL = 80 * e;
+        this.beakerSolution.color = new THREE.Color(sample.color);
+        applySolution(beaker, this.beakerSolution);
+      },
+    });
+    this.anim.hideStream();
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, 0), 0.35);
+    await this.anim.arcTo(bottle, home, 1.0, 0.8);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     this.state.run.beaker.sampleVolume_mL = 80;
     this.state.notify(`80 mL of ${sample.name} poured into the beaker.`, 'ok');
@@ -4348,6 +4633,7 @@ class ExperimentController {
     const vial = this.lab.objects.vial;
     const sample = this.state.sample;
     const bottle = this.lab.sampleBottle(this.state.sampleKey);
+<<<<<<< HEAD
     this.vialSolution.reset();
     await this.tiltPour(bottle, vial, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth.clone().setY(mouth.y - 0.3), sample.color, 0.025);
@@ -4361,6 +4647,26 @@ class ExperimentController {
       });
       this.anim.hideStream();
     }, { clear: 0.45 });
+=======
+    const home = bottle.position.clone();
+    const over = vial.position.clone().setY(vial.position.y + 1.0);
+
+    await this.anim.arcTo(bottle, over, 1.0, 0.7);
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, -0.9), 0.35);
+    this.anim.showStream(over.clone().setY(over.y - 0.2), vial.position.clone().setY(vial.position.y + 0.42), sample.color, 0.025);
+    this.vialSolution.reset();
+    await this.anim.tween({
+      duration: 1.4,
+      onUpdate: (e) => {
+        this.vialSolution.volume_mL = 25 * e;
+        this.vialSolution.color = new THREE.Color(sample.color);
+        applySolution(vial, this.vialSolution);
+      },
+    });
+    this.anim.hideStream();
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, 0), 0.3);
+    await this.anim.arcTo(bottle, home, 1.0, 0.7);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.state.run.vialFilled = true;
     this.state.notify('Sample vial rinsed and filled to the mark.', 'ok');
     return true;
@@ -4444,6 +4750,7 @@ class ExperimentController {
   async transferToVolumetric() {
     const beaker = this.lab.objects.beaker_prep;
     const volumetric = this.lab.objects.volumetric;
+<<<<<<< HEAD
     await this.tiltPour(beaker, volumetric, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth, 0xdff0f6);
       await Promise.all([
@@ -4452,6 +4759,13 @@ class ExperimentController {
       ]);
       this.anim.hideStream();
     }, { tilt: -1.2, clear: 0.6 });
+=======
+    const from = beaker.position.clone().setY(beaker.position.y + 0.7);
+    const to = volumetric.position.clone().setY(volumetric.position.y + 1.2);
+    await this.anim.pour(from, to, 1.6, 0xdff0f6);
+    await this.anim.fillTo(beaker.userData.liquid, 0, 0.8);
+    await this.anim.fillTo(volumetric.userData.liquid, 0.7, 1.2);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.state.notify('Solution transferred quantitatively through the funnel, beaker rinsed in.', 'ok');
     return true;
   }
@@ -4460,10 +4774,16 @@ class ExperimentController {
     const volumetric = this.lab.objects.volumetric;
     const wash = this.lab.objects.washbottle;
     const home = wash.position.clone();
+<<<<<<< HEAD
     const vTop = new THREE.Box3().setFromObject(volumetric).max.y;
     const over = volumetric.position.clone().setY(vTop + 0.9);
     await this.anim.arcTo(wash, over, 1.2, 0.8);
     await this.anim.pour(over.clone().setY(over.y - 0.2), volumetric.position.clone().setY(vTop - 0.3), 1.4, 0xdff0f6);
+=======
+    const over = volumetric.position.clone().setY(volumetric.position.y + 1.9);
+    await this.anim.arcTo(wash, over, 1.2, 0.8);
+    await this.anim.pour(over.clone().setY(over.y - 0.2), volumetric.position.clone().setY(volumetric.position.y + 1.3), 1.4, 0xdff0f6);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     await this.anim.fillTo(volumetric.userData.liquid, 1.0, 0.8);
     await this.anim.fillTo(volumetric.userData.neckLiquid, 1.0, 0.9);
     await this.anim.arcTo(wash, home, 1.1, 0.8);
@@ -5073,11 +5393,19 @@ class UI {
 
 
 const VIEWS = {
+<<<<<<< HEAD
   overview: { position: new THREE.Vector3(0.4, 13.8, 13.2), target: new THREE.Vector3(0, 10.6, -0.2) },
   titration: { position: new THREE.Vector3(-1.2, 13.2, 9.0), target: new THREE.Vector3(-1.5, 11.8, 0.0) },
   instruments: { position: new THREE.Vector3(5.4, 12.6, 8.2), target: new THREE.Vector3(5.2, 9.9, 0.3) },
   preparation: { position: new THREE.Vector3(-6.4, 12.4, 7.4), target: new THREE.Vector3(-6.4, 9.9, 0.8) },
   burette: { position: new THREE.Vector3(-1.4, 12.6, 6.4), target: new THREE.Vector3(-1.5, 11.4, 0.0) },
+=======
+  overview: { position: new THREE.Vector3(1.2, 13.4, 12.6), target: new THREE.Vector3(0, 10.4, -0.2) },
+  titration: { position: new THREE.Vector3(-0.6, 12.6, 5.2), target: new THREE.Vector3(-1.0, 11.0, 0.0) },
+  instruments: { position: new THREE.Vector3(4.2, 12.2, 6.0), target: new THREE.Vector3(3.4, 9.9, 0.1) },
+  preparation: { position: new THREE.Vector3(-5.2, 12.0, 5.6), target: new THREE.Vector3(-5.6, 9.9, 0.4) },
+  burette: { position: new THREE.Vector3(-0.9, 11.6, 3.4), target: new THREE.Vector3(-1.0, 10.6, 0.0) },
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 };
 
 class LabCamera {
@@ -5160,6 +5488,7 @@ function createControls(camera, domElement) {
   controls.zoomSpeed = 0.85;
   controls.screenSpacePanning = true;
   controls.minDistance = 1.8;
+<<<<<<< HEAD
   controls.maxDistance = 34;
   controls.minPolarAngle = 0.35;       // never straight down
   controls.maxPolarAngle = Math.PI / 2 - 0.02;  // never below the bench
@@ -5167,6 +5496,15 @@ function createControls(camera, domElement) {
 
   const minPan = new THREE.Vector3(-10.5, 8.6, -3.0);
   const maxPan = new THREE.Vector3(10.5, 16.0, 3.4);
+=======
+  controls.maxDistance = 30;
+  controls.minPolarAngle = 0.35;       // never straight down
+  controls.maxPolarAngle = Math.PI / 2 - 0.02;  // never below the bench
+  controls.target.set(0, 10.4, -0.2);
+
+  const minPan = new THREE.Vector3(-9.5, 8.6, -3.0);
+  const maxPan = new THREE.Vector3(9.5, 16.0, 3.4);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   controls.addEventListener('change', () => {
     controls.target.clamp(minPan, maxPan);
   });
@@ -5220,8 +5558,13 @@ class LabScene {
     key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.near = 2;
     key.shadow.camera.far = 60;
+<<<<<<< HEAD
     key.shadow.camera.left = -18;
     key.shadow.camera.right = 18;
+=======
+    key.shadow.camera.left = -16;
+    key.shadow.camera.right = 16;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     key.shadow.camera.top = 16;
     key.shadow.camera.bottom = -6;
     key.shadow.bias = -0.0009;

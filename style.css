@@ -54,7 +54,11 @@ html, body {
 
 /* ---------------- top bar ---------------- */
 #topbar {
+<<<<<<< HEAD
   height: 48px;
+=======
+  height: 58px;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; padding: 0 16px;
   background: var(--bench-soft);
@@ -99,10 +103,17 @@ html, body {
 
 /* ---------------- layout ---------------- */
 #app {
+<<<<<<< HEAD
   height: calc(100% - 48px);
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr) 280px;
   grid-template-rows: minmax(0, 1fr) 112px;
+=======
+  height: calc(100% - 58px);
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr) 340px;
+  grid-template-rows: minmax(0, 1fr) 210px;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   grid-template-areas: "left centre right" "bottom bottom bottom";
   gap: 1px;
   background: #0f1416;
@@ -113,14 +124,22 @@ html, body {
 #bottom { grid-area: bottom; }
 
 aside, #bottom { background: var(--panel); overflow-y: auto; }
+<<<<<<< HEAD
 aside { padding: 10px 12px; }
+=======
+aside { padding: 14px; }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
 aside h2 {
   font-size: 11px; text-transform: none; letter-spacing: .02em;
   color: var(--ink-soft); font-weight: 600; margin: 0 0 8px;
   padding-bottom: 6px; border-bottom: 1px solid var(--rule);
 }
+<<<<<<< HEAD
 aside section { margin-bottom: 12px; }
+=======
+aside section { margin-bottom: 20px; }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
 /* ---------------- experiment list ---------------- */
 .exp-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
@@ -178,6 +197,7 @@ aside section { margin-bottom: 12px; }
 #object-label.visible { opacity: 1; }
 
 #bench-hud {
+<<<<<<< HEAD
   position: absolute; top: 8px; left: 8px; width: 138px;
   background: rgba(244,242,236,.93); border: 1px solid rgba(0,0,0,.15);
   border-radius: var(--radius); box-shadow: var(--shadow); padding: 6px 8px;
@@ -210,6 +230,39 @@ aside section { margin-bottom: 12px; }
 
 #toast-stack {
   position: absolute; right: 8px; bottom: 8px; width: 280px; max-height: 45%; overflow: hidden;
+=======
+  position: absolute; top: 14px; left: 14px; width: 224px;
+  background: rgba(244,242,236,.95); border: 1px solid rgba(0,0,0,.15);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 11px 12px;
+}
+.hud-title { font-size: 11px; color: var(--ink-soft); margin-bottom: 7px; }
+#bench-hud dl { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin: 0 0 8px; }
+#bench-hud dt { font-size: 10.5px; color: var(--ink-soft); }
+#bench-hud dd { margin: 0; font-size: 15px; font-weight: 600; }
+.hud-row { display: flex; justify-content: space-between; font-size: 11.5px; padding: 2px 0; }
+.hud-row span:first-child { color: var(--ink-soft); }
+.hud-hint { font-size: 10.5px; color: var(--ink-soft); margin: 8px 0 0; }
+
+.stopcock {
+  width: 100%; margin-top: 9px; padding: 8px; font: inherit; font-size: 12.5px; font-weight: 600;
+  border-radius: 3px; border: 1px solid var(--teal); background: var(--teal); color: #f2fbf8; cursor: pointer;
+}
+.stopcock.open { background: var(--danger); border-color: var(--danger); }
+#flow-buttons { width: 100%; margin-top: 6px; background: var(--panel-2); }
+#flow-buttons button { flex: 1; color: var(--ink-soft); }
+#flow-buttons button.active { background: #fff; color: var(--ink); }
+
+#selection-card {
+  position: absolute; left: 14px; bottom: 14px; max-width: 320px;
+  background: rgba(244,242,236,.95); border: 1px solid rgba(0,0,0,.15);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 8px 11px;
+}
+#selection-card strong { display: block; font-size: 13px; }
+#selection-card span { font-size: 11.5px; color: var(--ink-soft); }
+
+#toast-stack {
+  position: absolute; right: 14px; bottom: 14px; width: 330px;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   display: flex; flex-direction: column; gap: 6px; align-items: flex-end;
 }
 .toast {
@@ -273,23 +326,37 @@ aside section { margin-bottom: 12px; }
 .steps li.current .mark { background: var(--amber); color: #1b1204; }
 
 /* ---------------- tables ---------------- */
+<<<<<<< HEAD
 table.data { width: 100%; border-collapse: collapse; font-size: 10.5px; }
 table.data th, table.data td { text-align: left; padding: 1px 5px; border-bottom: 1px solid var(--rule); }
+=======
+table.data { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.data th, table.data td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--rule); }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 table.data th { font-weight: 500; color: var(--ink-soft); width: 55%; }
 table.data td { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; }
 table.data.wide th { width: auto; }
 table.data thead th { color: var(--ink); border-bottom: 1px solid var(--ink-soft); }
 
 .formula {
+<<<<<<< HEAD
   font-family: "IBM Plex Mono", monospace; font-size: 10.5px;
   background: var(--panel-2); padding: 2px 6px; border-radius: 3px; margin: 0 0 3px;
 }
 .working {
   font-family: "IBM Plex Mono", monospace; font-size: 10px; white-space: pre-wrap;
+=======
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px;
+  background: var(--panel-2); padding: 6px 8px; border-radius: 3px; margin: 0 0 6px;
+}
+.working {
+  font-family: "IBM Plex Mono", monospace; font-size: 11.5px; white-space: pre-wrap;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   margin: 0; color: var(--ink-soft);
 }
 
 .result-figure { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+<<<<<<< HEAD
 .result-figure .value { font-size: 18px; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
 .result-figure .unit { font-size: 11px; color: var(--ink-soft); }
 .remark { font-size: 10.5px; color: var(--ink-soft); margin: 0 0 3px; }
@@ -300,18 +367,38 @@ table.data thead th { color: var(--ink); border-bottom: 1px solid var(--ink-soft
 .bottom-col h3 {
   margin: 0 0 4px; font-size: 10px; font-weight: 600; color: var(--ink-soft);
   padding-bottom: 2px; border-bottom: 1px solid var(--rule);
+=======
+.result-figure .value { font-size: 30px; font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+.result-figure .unit { font-size: 13px; color: var(--ink-soft); }
+.remark { font-size: 12px; color: var(--ink-soft); margin: 0 0 8px; }
+
+/* ---------------- bottom ---------------- */
+#bottom { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #0f1416; }
+.bottom-col { background: var(--panel); padding: 12px 14px; overflow-y: auto; }
+.bottom-col h3 {
+  margin: 0 0 8px; font-size: 11px; font-weight: 600; color: var(--ink-soft);
+  padding-bottom: 5px; border-bottom: 1px solid var(--rule);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 }
 
 /* ---------------- accessibility & narrow screens ---------------- */
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
 
 @media (max-width: 1240px) {
+<<<<<<< HEAD
   #app { grid-template-columns: 180px minmax(0,1fr) 250px; }
+=======
+  #app { grid-template-columns: 214px minmax(0,1fr) 296px; }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 }
 @media (max-width: 1024px) {
   #app {
     grid-template-columns: 1fr;
+<<<<<<< HEAD
     grid-template-rows: 60vh auto auto auto;
+=======
+    grid-template-rows: 46vh auto auto auto;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     grid-template-areas: "centre" "right" "left" "bottom";
     height: auto;
   }

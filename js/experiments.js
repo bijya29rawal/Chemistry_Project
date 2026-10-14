@@ -252,6 +252,7 @@ export class ExperimentController {
     return exp?.titrant || 'edta';
   }
 
+<<<<<<< HEAD
   /**
    * Carry a vessel over `target`, tilt it so its LIP (mouth) sits directly
    * above the target's axis, run `pourFn({ lip, mouth })`, then put it back.
@@ -287,17 +288,27 @@ export class ExperimentController {
     await this.anim.arcTo(vessel, home, 1.0, 0.8);
   }
 
+=======
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   async rinseBurette() {
     const burette = this.lab.objects.burette;
     const key = this.titrantKey;
     const reagent = REAGENTS[key];
     this.setPhase(PHASE.RINSE);
     const bottle = this.lab.objects[`bottle_${key}`];
+<<<<<<< HEAD
 
     await this.tiltPour(bottle, burette, async ({ lip, mouth }) => {
       await this.anim.pour(lip, mouth, 1.0, reagent.color);
       await this.anim.fillTo(burette.userData.liquid, 0.18, 0.7);
     });
+=======
+    const top = burette.localToWorld(new THREE.Vector3(0, burette.userData.columnTopY + 0.1, 0));
+    const from = bottle.localToWorld(new THREE.Vector3(0, bottle.userData.pourY, 0));
+
+    await this.anim.pour(from, top, 1.0, reagent.color);
+    await this.anim.fillTo(burette.userData.liquid, 0.18, 0.7);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     burette.userData.liquid.setColor(reagent.color);
     const tip = this.lab.getBuretteTip();
     for (let i = 0; i < 4; i++) this.anim.emitDrop(tip, tip.clone().setY(tip.y - 1.6), reagent.color, 0.4);
@@ -317,12 +328,22 @@ export class ExperimentController {
     this.setPhase(PHASE.FILL);
 
     const bottle = this.lab.objects[`bottle_${key}`];
+<<<<<<< HEAD
     burette.userData.liquid.setColor(reagent.color);
     await this.tiltPour(bottle, burette, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth, reagent.color);
       await this.anim.fillTo(burette.userData.liquid, 1.0, 2.2, EASE.out);
       this.anim.hideStream();
     });
+=======
+    const from = bottle.localToWorld(new THREE.Vector3(0, bottle.userData.pourY, 0));
+    const top = burette.localToWorld(new THREE.Vector3(0, burette.userData.columnTopY + 0.1, 0));
+
+    burette.userData.liquid.setColor(reagent.color);
+    this.anim.showStream(from, top, reagent.color);
+    await this.anim.fillTo(burette.userData.liquid, 1.0, 2.2, EASE.out);
+    this.anim.hideStream();
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     // expel the air bubble: run a little through the tip and settle on the zero mark
     const tip = this.lab.getBuretteTip();
@@ -574,6 +595,7 @@ export class ExperimentController {
     this.setPhase(PHASE.ADD_REAGENT);
 
     const dose = reagent.doseVolume_mL || 1;
+<<<<<<< HEAD
     await this.tiltPour(bottle, flask, async ({ lip, mouth }) => {
       if (reagent.doseDrops) {
         for (let i = 0; i < reagent.doseDrops; i++) {
@@ -584,6 +606,23 @@ export class ExperimentController {
         await this.anim.pour(lip, mouth, 1.1, reagent.color);
       }
     });
+=======
+    const home = bottle.position.clone();
+    const overFlask = flask.position.clone().setY(this.lab.getFlaskMouth().y + 0.55);
+
+    await this.anim.arcTo(bottle, overFlask, 1.0, 0.8);
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, -0.85), 0.4);
+
+    const mouth = this.lab.getFlaskMouth();
+    if (reagent.doseDrops) {
+      for (let i = 0; i < reagent.doseDrops; i++) {
+        this.anim.emitDrop(mouth.clone().setY(mouth.y + 0.45), mouth, reagent.color, 0.4);
+        await this.anim.wait(0.34);
+      }
+    } else {
+      await this.anim.pour(mouth.clone().setY(mouth.y + 0.5), mouth, 1.1, reagent.color);
+    }
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     this.flaskSolution.addReagent(key, dose);
     applySolution(flask, this.flaskSolution);
@@ -591,6 +630,11 @@ export class ExperimentController {
       await this.anim.colorTo(flask.userData.liquid, INDICATOR_COLORS[key].before, 1.0);
     }
 
+<<<<<<< HEAD
+=======
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, 0), 0.35);
+    await this.anim.arcTo(bottle, home, 1.0, 0.8);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     await this.anim.swirl(flask, 2, 1.1);
 
     const run = this.state.run;
@@ -674,6 +718,7 @@ export class ExperimentController {
     const beaker = this.lab.beakerFor(exp.id);
     const sample = this.state.sample;
     const bottle = this.lab.sampleBottle(this.state.sampleKey);
+<<<<<<< HEAD
     this.beakerSolution.reset();
     await this.tiltPour(bottle, beaker, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth.clone().setY(mouth.y - 0.3), sample.color, 0.035);
@@ -687,6 +732,27 @@ export class ExperimentController {
       });
       this.anim.hideStream();
     });
+=======
+    const home = bottle.position.clone();
+    const over = beaker.position.clone().setY(beaker.position.y + 1.15);
+
+    await this.anim.arcTo(bottle, over, 1.1, 0.8);
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, -0.9), 0.4);
+    const mouth = beaker.position.clone().setY(beaker.position.y + 0.6);
+    this.anim.showStream(over.clone().setY(over.y - 0.25), mouth, sample.color, 0.035);
+    this.beakerSolution.reset();
+    await this.anim.tween({
+      duration: 1.8,
+      onUpdate: (e) => {
+        this.beakerSolution.volume_mL = 80 * e;
+        this.beakerSolution.color = new THREE.Color(sample.color);
+        applySolution(beaker, this.beakerSolution);
+      },
+    });
+    this.anim.hideStream();
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, 0), 0.35);
+    await this.anim.arcTo(bottle, home, 1.0, 0.8);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     this.state.run.beaker.sampleVolume_mL = 80;
     this.state.notify(`80 mL of ${sample.name} poured into the beaker.`, 'ok');
@@ -743,6 +809,7 @@ export class ExperimentController {
     const vial = this.lab.objects.vial;
     const sample = this.state.sample;
     const bottle = this.lab.sampleBottle(this.state.sampleKey);
+<<<<<<< HEAD
     this.vialSolution.reset();
     await this.tiltPour(bottle, vial, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth.clone().setY(mouth.y - 0.3), sample.color, 0.025);
@@ -756,6 +823,26 @@ export class ExperimentController {
       });
       this.anim.hideStream();
     }, { clear: 0.45 });
+=======
+    const home = bottle.position.clone();
+    const over = vial.position.clone().setY(vial.position.y + 1.0);
+
+    await this.anim.arcTo(bottle, over, 1.0, 0.7);
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, -0.9), 0.35);
+    this.anim.showStream(over.clone().setY(over.y - 0.2), vial.position.clone().setY(vial.position.y + 0.42), sample.color, 0.025);
+    this.vialSolution.reset();
+    await this.anim.tween({
+      duration: 1.4,
+      onUpdate: (e) => {
+        this.vialSolution.volume_mL = 25 * e;
+        this.vialSolution.color = new THREE.Color(sample.color);
+        applySolution(vial, this.vialSolution);
+      },
+    });
+    this.anim.hideStream();
+    await this.anim.rotateTo(bottle, new THREE.Euler(0, 0, 0), 0.3);
+    await this.anim.arcTo(bottle, home, 1.0, 0.7);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.state.run.vialFilled = true;
     this.state.notify('Sample vial rinsed and filled to the mark.', 'ok');
     return true;
@@ -839,6 +926,7 @@ export class ExperimentController {
   async transferToVolumetric() {
     const beaker = this.lab.objects.beaker_prep;
     const volumetric = this.lab.objects.volumetric;
+<<<<<<< HEAD
     await this.tiltPour(beaker, volumetric, async ({ lip, mouth }) => {
       this.anim.showStream(lip, mouth, 0xdff0f6);
       await Promise.all([
@@ -847,6 +935,13 @@ export class ExperimentController {
       ]);
       this.anim.hideStream();
     }, { tilt: -1.2, clear: 0.6 });
+=======
+    const from = beaker.position.clone().setY(beaker.position.y + 0.7);
+    const to = volumetric.position.clone().setY(volumetric.position.y + 1.2);
+    await this.anim.pour(from, to, 1.6, 0xdff0f6);
+    await this.anim.fillTo(beaker.userData.liquid, 0, 0.8);
+    await this.anim.fillTo(volumetric.userData.liquid, 0.7, 1.2);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.state.notify('Solution transferred quantitatively through the funnel, beaker rinsed in.', 'ok');
     return true;
   }
@@ -855,10 +950,16 @@ export class ExperimentController {
     const volumetric = this.lab.objects.volumetric;
     const wash = this.lab.objects.washbottle;
     const home = wash.position.clone();
+<<<<<<< HEAD
     const vTop = new THREE.Box3().setFromObject(volumetric).max.y;
     const over = volumetric.position.clone().setY(vTop + 0.9);
     await this.anim.arcTo(wash, over, 1.2, 0.8);
     await this.anim.pour(over.clone().setY(over.y - 0.2), volumetric.position.clone().setY(vTop - 0.3), 1.4, 0xdff0f6);
+=======
+    const over = volumetric.position.clone().setY(volumetric.position.y + 1.9);
+    await this.anim.arcTo(wash, over, 1.2, 0.8);
+    await this.anim.pour(over.clone().setY(over.y - 0.2), volumetric.position.clone().setY(volumetric.position.y + 1.3), 1.4, 0xdff0f6);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     await this.anim.fillTo(volumetric.userData.liquid, 1.0, 0.8);
     await this.anim.fillTo(volumetric.userData.neckLiquid, 1.0, 0.9);
     await this.anim.arcTo(wash, home, 1.1, 0.8);

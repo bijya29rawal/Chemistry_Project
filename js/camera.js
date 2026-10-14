@@ -8,11 +8,19 @@
 import * as THREE from 'three';
 
 export const VIEWS = {
+<<<<<<< HEAD
   overview: { position: new THREE.Vector3(0.4, 13.8, 13.2), target: new THREE.Vector3(0, 10.6, -0.2) },
   titration: { position: new THREE.Vector3(-1.2, 13.2, 9.0), target: new THREE.Vector3(-1.5, 11.8, 0.0) },
   instruments: { position: new THREE.Vector3(5.4, 12.6, 8.2), target: new THREE.Vector3(5.2, 9.9, 0.3) },
   preparation: { position: new THREE.Vector3(-6.4, 12.4, 7.4), target: new THREE.Vector3(-6.4, 9.9, 0.8) },
   burette: { position: new THREE.Vector3(-1.4, 12.6, 6.4), target: new THREE.Vector3(-1.5, 11.4, 0.0) },
+=======
+  overview: { position: new THREE.Vector3(1.2, 13.4, 12.6), target: new THREE.Vector3(0, 10.4, -0.2) },
+  titration: { position: new THREE.Vector3(-0.6, 12.6, 5.2), target: new THREE.Vector3(-1.0, 11.0, 0.0) },
+  instruments: { position: new THREE.Vector3(4.2, 12.2, 6.0), target: new THREE.Vector3(3.4, 9.9, 0.1) },
+  preparation: { position: new THREE.Vector3(-5.2, 12.0, 5.6), target: new THREE.Vector3(-5.6, 9.9, 0.4) },
+  burette: { position: new THREE.Vector3(-0.9, 11.6, 3.4), target: new THREE.Vector3(-1.0, 10.6, 0.0) },
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 };
 
 export class LabCamera {

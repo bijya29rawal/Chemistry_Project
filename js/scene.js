@@ -43,8 +43,13 @@ export class LabScene {
     key.shadow.mapSize.set(2048, 2048);
     key.shadow.camera.near = 2;
     key.shadow.camera.far = 60;
+<<<<<<< HEAD
     key.shadow.camera.left = -18;
     key.shadow.camera.right = 18;
+=======
+    key.shadow.camera.left = -16;
+    key.shadow.camera.right = 16;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     key.shadow.camera.top = 16;
     key.shadow.camera.bottom = -6;
     key.shadow.bias = -0.0009;

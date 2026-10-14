@@ -85,7 +85,11 @@ export class Laboratory {
 
     // bench carcass and black epoxy top
     const carcass = new THREE.Mesh(
+<<<<<<< HEAD
       new THREE.BoxGeometry(20, 8.6, 5.4),
+=======
+      new THREE.BoxGeometry(17, 8.6, 5.4),
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       new THREE.MeshStandardMaterial({ color: 0x8c6d4f, roughness: 0.8 }),
     );
     carcass.position.set(0, 4.3, -0.6);
@@ -93,7 +97,11 @@ export class Laboratory {
     this.root.add(carcass);
 
     const top = new THREE.Mesh(
+<<<<<<< HEAD
       new THREE.BoxGeometry(20.6, 0.4, 5.8),
+=======
+      new THREE.BoxGeometry(17.6, 0.4, 5.8),
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       new THREE.MeshStandardMaterial({ color: 0x2b2f31, roughness: 0.45, metalness: 0.05 }),
     );
     top.position.set(0, BENCH_TOP_Y - 0.2, -0.6);
@@ -102,7 +110,11 @@ export class Laboratory {
     this.benchTop = top;
 
     // drawer fronts
+<<<<<<< HEAD
     for (let i = -4; i <= 4; i++) {
+=======
+    for (let i = -3; i <= 3; i++) {
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       const d = new THREE.Mesh(
         new THREE.BoxGeometry(2.2, 1.0, 0.08),
         new THREE.MeshStandardMaterial({ color: 0x9a7a58, roughness: 0.7 }),
@@ -117,23 +129,39 @@ export class Laboratory {
 
     // wall shelf with spare stock bottles
     const shelfMat = new THREE.MeshStandardMaterial({ color: 0xe6e2d8, roughness: 0.7 });
+<<<<<<< HEAD
     const shelf = new THREE.Mesh(new THREE.BoxGeometry(19, 0.16, 1.5), shelfMat);
     shelf.position.set(0, 13.4, -2.8);
     shelf.castShadow = true; shelf.receiveShadow = true;
     this.root.add(shelf);
     for (const x of [-9, 0, 9]) {
+=======
+    const shelf = new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 1.5), shelfMat);
+    shelf.position.set(0, 13.4, -2.8);
+    shelf.castShadow = true; shelf.receiveShadow = true;
+    this.root.add(shelf);
+    for (const x of [-7.6, 0, 7.6]) {
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       const bracket = new THREE.Mesh(new THREE.BoxGeometry(0.2, 1.2, 1.3), shelfMat);
       bracket.position.set(x, 12.8, -2.85);
       this.root.add(bracket);
     }
     const stockColors = [0xdfe9ee, 0xe9e3d6, 0xd7e6df, 0xe7d9e2, 0xdde4ee, 0xe4e9d8];
+<<<<<<< HEAD
     for (let i = 0; i < 14; i++) {
+=======
+    for (let i = 0; i < 12; i++) {
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       const b = createReagentBottle({
         name: 'Stock', subtitle: '', color: stockColors[i % stockColors.length],
         height: 0.8 + (i % 3) * 0.12, radius: 0.19, amber: i % 4 === 0,
       });
       b.userData.interactive = false;
+<<<<<<< HEAD
       b.position.set(-8.3 + i * 1.28, 13.48, -2.8);
+=======
+      b.position.set(-7 + i * 1.28, 13.48, -2.8);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.root.add(b);
     }
 
@@ -142,11 +170,19 @@ export class Laboratory {
       new THREE.BoxGeometry(2.4, 0.5, 1.8),
       new THREE.MeshStandardMaterial({ color: 0xa7adb0, roughness: 0.35, metalness: 0.7 }),
     );
+<<<<<<< HEAD
     sink.position.set(8.9, BENCH_TOP_Y - 0.25, -1.1);
     this.root.add(sink);
     const tapCurve = new THREE.CatmullRomCurve3([
       new THREE.Vector3(8.9, BENCH_TOP_Y, -2.0), new THREE.Vector3(8.9, BENCH_TOP_Y + 1.4, -2.0),
       new THREE.Vector3(8.9, BENCH_TOP_Y + 1.7, -1.6), new THREE.Vector3(8.9, BENCH_TOP_Y + 1.5, -1.15),
+=======
+    sink.position.set(7.4, BENCH_TOP_Y - 0.25, -1.1);
+    this.root.add(sink);
+    const tapCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(7.4, BENCH_TOP_Y, -2.0), new THREE.Vector3(7.4, BENCH_TOP_Y + 1.4, -2.0),
+      new THREE.Vector3(7.4, BENCH_TOP_Y + 1.7, -1.6), new THREE.Vector3(7.4, BENCH_TOP_Y + 1.5, -1.15),
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     ]);
     const tap = new THREE.Mesh(new THREE.TubeGeometry(tapCurve, 20, 0.06, 10, false), MATERIALS.steel);
     this.root.add(tap);
@@ -155,7 +191,11 @@ export class Laboratory {
   /* -------------------- titration station -------------------- */
 
   buildTitrationStation() {
+<<<<<<< HEAD
     const X = -1.5;
+=======
+    const X = -1.0;
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
 
     const stand = createBuretteStand({ rodHeight: 5.6 });
     stand.rotation.y = -Math.PI / 2;    // rod to the back, clamp facing the front
@@ -185,17 +225,29 @@ export class Laboratory {
     this.tipWorld = new THREE.Vector3(X, buretteY + burette.userData.tipY, 0.02);
 
     const stirrer = createMagneticStirrer();
+<<<<<<< HEAD
     this.add(stirrer, X + 2.0, BENCH_TOP_Y, 0.3);
     this.register('stirrer', stirrer);
 
     const pipette = createPipette();
     this.add(pipette, X + 1.0, BENCH_TOP_Y, 1.9);
+=======
+    this.add(stirrer, X + 2.0, BENCH_TOP_Y, 0.4);
+    this.register('stirrer', stirrer);
+
+    const pipette = createPipette();
+    this.add(pipette, X + 1.0, BENCH_TOP_Y, 1.55);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     pipette.rotation.z = 0.0;
     this.register('pipette', pipette);
     pipette.userData.home = pipette.position.clone();
 
     const wash = createWashBottle();
+<<<<<<< HEAD
     this.add(wash, X - 1.3, BENCH_TOP_Y, 1.8);
+=======
+    this.add(wash, X - 1.15, BENCH_TOP_Y, 1.5);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('washbottle', wash);
   }
 
@@ -217,7 +269,11 @@ export class Laboratory {
       });
       b.userData.reagentKey = key;
       b.userData.name = r.name;
+<<<<<<< HEAD
       this.add(b, -6.2 + i * 0.85, BENCH_TOP_Y, -2.0);
+=======
+      this.add(b, -4.9 + i * 0.78, BENCH_TOP_Y, -2.0);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.register(`bottle_${key}`, b);
     });
 
@@ -236,7 +292,11 @@ export class Laboratory {
       });
       b.userData.reagentKey = key;
       b.userData.name = r.name;
+<<<<<<< HEAD
       this.add(b, -6.2 + i * 0.7, BENCH_TOP_Y, -1.1);
+=======
+      this.add(b, -4.9 + i * 0.62, BENCH_TOP_Y, -1.15);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.register(`bottle_${key}`, b);
     });
 
@@ -251,7 +311,11 @@ export class Laboratory {
       });
       b.userData.sampleKey = key;
       b.userData.name = s.name;
+<<<<<<< HEAD
       this.add(b, 1.6 + i * 0.85, BENCH_TOP_Y, -2.0);
+=======
+      this.add(b, 1.4 + i * 0.8, BENCH_TOP_Y, -2.0);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
       this.register(`sample_${key}`, b);
     });
   }
@@ -260,11 +324,16 @@ export class Laboratory {
 
   buildInstrumentStation() {
     const ph = createPHMeter();
+<<<<<<< HEAD
     this.add(ph, 2.6, BENCH_TOP_Y, 0.2);
+=======
+    this.add(ph, 1.9, BENCH_TOP_Y, 0.4);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('phmeter', ph);
 
     // beaker directly under the pH electrode
     const phBeaker = createBeaker({ name: 'Beaker 100 mL (pH)', capacity: 100, radius: 0.33, height: 0.62, action: 'BEAKER' });
+<<<<<<< HEAD
     this.add(phBeaker, 2.6 + 1.34, BENCH_TOP_Y, 0.2);
     this.register('beaker_ph', phBeaker);
 
@@ -282,16 +351,43 @@ export class Laboratory {
 
     const vial = createSampleVial();
     this.add(vial, 6.9, BENCH_TOP_Y, 1.8);
+=======
+    this.add(phBeaker, 1.9 + 1.34, BENCH_TOP_Y, 0.4);
+    this.register('beaker_ph', phBeaker);
+
+    const cond = createConductivityMeter();
+    this.add(cond, 4.6, BENCH_TOP_Y, -0.35);
+    this.register('condmeter', cond);
+
+    const condBeaker = createBeaker({ name: 'Beaker 100 mL (EC)', capacity: 100, radius: 0.33, height: 0.62, action: 'BEAKER' });
+    this.add(condBeaker, 4.6 + 0.95, BENCH_TOP_Y, -0.35);
+    this.register('beaker_cond', condBeaker);
+
+    const turb = createTurbidityMeter();
+    this.add(turb, 6.3, BENCH_TOP_Y, 1.2);
+    this.register('turbmeter', turb);
+
+    const vial = createSampleVial();
+    this.add(vial, 5.4, BENCH_TOP_Y, 1.6);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('vial', vial);
     vial.userData.home = vial.position.clone();
 
     const thermo = createThermometer();
+<<<<<<< HEAD
     this.add(thermo, 4.0, BENCH_TOP_Y, 1.8);
+=======
+    this.add(thermo, 3.1, BENCH_TOP_Y, 1.6);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     thermo.rotation.z = 0.12;
     this.register('thermometer', thermo);
 
     const timer = createStopwatch();
+<<<<<<< HEAD
     this.add(timer, 3.0, BENCH_TOP_Y, 1.8);
+=======
+    this.add(timer, 2.3, BENCH_TOP_Y, 1.7);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('timer', timer);
   }
 
@@ -299,6 +395,7 @@ export class Laboratory {
 
   buildPreparationStation() {
     const balance = createBalance();
+<<<<<<< HEAD
     this.add(balance, -8.0, BENCH_TOP_Y, -0.2);
     this.register('balance', balance);
 
@@ -316,6 +413,25 @@ export class Laboratory {
 
     const cylinder = createMeasuringCylinder({ capacity: 100 });
     this.add(cylinder, -4.8, BENCH_TOP_Y, 1.6);
+=======
+    this.add(balance, -6.6, BENCH_TOP_Y, -0.3);
+    this.register('balance', balance);
+
+    const volumetric = createVolumetricFlask();
+    this.add(volumetric, -6.3, BENCH_TOP_Y, 1.3);
+    this.register('volumetric', volumetric);
+
+    const funnel = createFunnel();
+    this.add(funnel, -5.4, BENCH_TOP_Y, 1.5);
+    this.register('funnel', funnel);
+
+    const prepBeaker = createBeaker({ name: 'Beaker 250 mL', capacity: 250, radius: 0.4, height: 0.68 });
+    this.add(prepBeaker, -4.6, BENCH_TOP_Y, 1.4);
+    this.register('beaker_prep', prepBeaker);
+
+    const cylinder = createMeasuringCylinder({ capacity: 100 });
+    this.add(cylinder, -3.6, BENCH_TOP_Y, 1.4);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('cylinder', cylinder);
   }
 
@@ -323,22 +439,38 @@ export class Laboratory {
 
   buildAccessories() {
     const rack = createTestTubeRack({ count: 6 });
+<<<<<<< HEAD
     this.add(rack, -2.2, BENCH_TOP_Y, -2.0);
+=======
+    this.add(rack, -2.4, BENCH_TOP_Y, -2.0);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('rack', rack);
 
     const rod = createGlassRod();
     rod.rotation.z = Math.PI / 2;
     rod.rotation.y = 0.35;
+<<<<<<< HEAD
     this.add(rod, -3.7, BENCH_TOP_Y + 0.025, 2.1);
     this.register('rod', rod);
 
     const dropper = createDropper();
     this.add(dropper, -2.9, BENCH_TOP_Y, 2.0);
+=======
+    this.add(rod, -2.6, BENCH_TOP_Y + 0.025, 1.7);
+    this.register('rod', rod);
+
+    const dropper = createDropper();
+    this.add(dropper, -1.9, BENCH_TOP_Y, 1.85);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     dropper.rotation.z = 0.25;
     this.register('dropper', dropper);
 
     const waste = createWasteJar();
+<<<<<<< HEAD
     this.add(waste, 8.9, BENCH_TOP_Y, 1.3);
+=======
+    this.add(waste, 7.4, BENCH_TOP_Y, 0.9);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
     this.register('waste', waste);
   }
 

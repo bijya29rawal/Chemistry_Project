@@ -17,6 +17,7 @@ export function createControls(camera, domElement) {
   controls.zoomSpeed = 0.85;
   controls.screenSpacePanning = true;
   controls.minDistance = 1.8;
+<<<<<<< HEAD
   controls.maxDistance = 34;
   controls.minPolarAngle = 0.35;       // never straight down
   controls.maxPolarAngle = Math.PI / 2 - 0.02;  // never below the bench
@@ -24,6 +25,15 @@ export function createControls(camera, domElement) {
 
   const minPan = new THREE.Vector3(-10.5, 8.6, -3.0);
   const maxPan = new THREE.Vector3(10.5, 16.0, 3.4);
+=======
+  controls.maxDistance = 30;
+  controls.minPolarAngle = 0.35;       // never straight down
+  controls.maxPolarAngle = Math.PI / 2 - 0.02;  // never below the bench
+  controls.target.set(0, 10.4, -0.2);
+
+  const minPan = new THREE.Vector3(-9.5, 8.6, -3.0);
+  const maxPan = new THREE.Vector3(9.5, 16.0, 3.4);
+>>>>>>> 3ce52104b60cd5dd5d3974bb0041877056bfc956
   controls.addEventListener('change', () => {
     controls.target.clamp(minPan, maxPan);
   });
