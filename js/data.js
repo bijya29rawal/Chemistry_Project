@@ -45,31 +45,31 @@ export const CONFIG = {
 export const REAGENTS = {
   edta: {
     key: 'edta', name: 'EDTA solution', formula: 'Na2H2Y·2H2O',
-    molarity: 0.01, unit: 'M', color: 0xd8e6ee, container: 'Reagent bottle',
+    molarity: 0.01, unit: 'M', color: 0x4aaed6, container: 'Reagent bottle',
     stock_mL: 1000, experiments: ['hardness', 'shw_prep'],
     note: 'Disodium salt of ethylenediaminetetraacetic acid, 0.01 M.',
   },
   hcl: {
     key: 'hcl', name: 'Hydrochloric acid', formula: 'HCl',
-    normality: 0.02, unit: 'N', color: 0xeaf3f7, container: 'Reagent bottle',
+    normality: 0.02, unit: 'N', color: 0x58b6de, container: 'Reagent bottle',
     stock_mL: 1000, experiments: ['alkalinity_total', 'alkalinity_mixed', 'acidbase'],
     note: 'Standardised 0.02 N HCl.',
   },
   naoh: {
     key: 'naoh', name: 'Sodium hydroxide', formula: 'NaOH',
-    normality: 0.02, unit: 'N', color: 0xeef0ea, container: 'Reagent bottle',
+    normality: 0.02, unit: 'N', color: 0x50b0db, container: 'Reagent bottle',
     stock_mL: 1000, experiments: ['acidbase'],
     note: 'Standardised 0.02 N NaOH (used as the sample in the acid–base run).',
   },
   agno3: {
     key: 'agno3', name: 'Silver nitrate', formula: 'AgNO3',
-    normality: 0.0141, unit: 'N', color: 0xf2f2ef, container: 'Amber bottle',
+    normality: 0.0141, unit: 'N', color: 0x62bee2, container: 'Amber bottle',
     stock_mL: 500, experiments: ['chloride'],
     note: '0.0141 N AgNO3 — 1 mL ≡ 0.5 mg Cl⁻ (Mohr method).',
   },
   buffer: {
     key: 'buffer', name: 'Ammonia buffer pH 10', formula: 'NH4Cl / NH4OH',
-    color: 0xe3ecf0, container: 'Reagent bottle', stock_mL: 250,
+    color: 0x4eb2da, container: 'Reagent bottle', stock_mL: 250,
     experiments: ['hardness'], doseDrops: 0, doseVolume_mL: 2,
     note: 'Holds the sample at pH 10 so the EBT–Mg complex is stable.',
   },
@@ -104,7 +104,7 @@ export const REAGENTS = {
   },
   distilled: {
     key: 'distilled', name: 'Distilled water', formula: 'H2O',
-    color: 0xdff0f6, container: 'Wash bottle', stock_mL: 2000,
+    color: 0x48b6e6, container: 'Wash bottle', stock_mL: 2000,
     experiments: ['all'], note: 'For rinsing and making up to the mark.',
   },
 };
@@ -114,32 +114,32 @@ export const REAGENTS = {
 /* ------------------------------------------------------------------ */
 export const SAMPLES = {
   distilled: {
-    key: 'distilled', name: 'Distilled water', color: 0xd9eef6, tint: 0.05,
+    key: 'distilled', name: 'Distilled water', color: 0x48b6e6, tint: 0.05,
     pH: 6.8, hardness_mgL: 2, alkalinity_P_mgL: 0, alkalinity_T_mgL: 4,
     chloride_mgL: 1, conductivity_uS: 3, turbidity_NTU: 0.2,
     normality: 0, description: 'Freshly distilled, used as blank and for rinsing.',
   },
   tap: {
-    key: 'tap', name: 'Tap water', color: 0xcfe7f2, tint: 0.12,
+    key: 'tap', name: 'Tap water', color: 0x44aed8, tint: 0.12,
     pH: 7.6, hardness_mgL: 184, alkalinity_P_mgL: 0, alkalinity_T_mgL: 142,
     chloride_mgL: 46, conductivity_uS: 512, turbidity_NTU: 1.4,
     normality: 0, description: 'Municipal supply, moderately hard.',
   },
   natural: {
-    key: 'natural', name: 'Natural (bore-well) water', color: 0xc3ddd6, tint: 0.2,
+    key: 'natural', name: 'Natural (bore-well) water', color: 0x42a8cf, tint: 0.2,
     pH: 8.4, hardness_mgL: 326, alkalinity_P_mgL: 22, alkalinity_T_mgL: 268,
     chloride_mgL: 118, conductivity_uS: 940, turbidity_NTU: 8.6,
     normality: 0, description: 'Ground water, hard, carbonate alkalinity present.',
   },
   standard_hard: {
-    key: 'standard_hard', name: 'Standard hard water', color: 0xdaeef5, tint: 0.07,
+    key: 'standard_hard', name: 'Standard hard water', color: 0x4ab2dc, tint: 0.07,
     pH: 7.0, hardness_mgL: null, /* taken from CONFIG at run time */
     alkalinity_P_mgL: 0, alkalinity_T_mgL: 0,
     chloride_mgL: 0, conductivity_uS: 6, turbidity_NTU: 0.3,
     normality: 0, description: 'Prepared from AR CaCO3 — strength set in Settings.',
   },
   unknown: {
-    key: 'unknown', name: 'Unknown sample (X-7)', color: 0xd2e3cf, tint: 0.18,
+    key: 'unknown', name: 'Unknown sample (X-7)', color: 0x3ea2c9, tint: 0.18,
     pH: 9.3, hardness_mgL: 248, alkalinity_P_mgL: 64, alkalinity_T_mgL: 196,
     chloride_mgL: 82, conductivity_uS: 726, turbidity_NTU: 4.1,
     normality: 0.012, description: 'Issued for analysis. Composition not disclosed.',

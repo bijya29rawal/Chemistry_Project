@@ -51,35 +51,93 @@ const nextId = (prefix) => `${prefix}_${++uid}`;
 
 /**
  * Build a liquid body that fills a vessel from yBase upward.
- * Geometry is created once; filling only changes scale.y, never geometry.
+ * Includes a realistic surface meniscus that moves with the liquid level.
  */
-export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0xbfe2f0, opacity = 0.82 }) {
+export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, opacity = 0.88, hasMeniscus = true }) {
   const geo = new THREE.CylinderGeometry(rTop, rBottom, 1, 48, 1, false);
   geo.translate(0, 0.5, 0); // pivot at the base
   const mat = new THREE.MeshPhysicalMaterial({
     color, transparent: true, opacity, roughness: 0.02, metalness: 0,
-    clearcoat: 0.9, clearcoatRoughness: 0.02, ior: 1.333, depthWrite: false,
+    clearcoat: 1.0, clearcoatRoughness: 0.02, ior: 1.333, depthWrite: false,
   });
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.y = yBase;
   mesh.scale.y = 0.0001;
   mesh.visible = false;
-  mesh.renderOrder = 1;
+  mesh.renderOrder = 2;
   mesh.userData.isLiquid = true;
+
+  let meniscusMesh = null;
+  let ringMesh = null;
+
+  if (hasMeniscus) {
+    // Disc with slight concave bevel
+    const mGeo = new THREE.CylinderGeometry(rTop * 0.99, rTop * 0.93, 0.025, 48, 1, false);
+    mGeo.translate(0, -0.012, 0);
+    const mMat = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(color).multiplyScalar(0.42),
+      transparent: true,
+      opacity: 0.95,
+      roughness: 0.04,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.02,
+      ior: 1.35,
+      depthWrite: false,
+    });
+    meniscusMesh = new THREE.Mesh(mGeo, mMat);
+    meniscusMesh.visible = false;
+    meniscusMesh.renderOrder = 4;
+
+    // Dark refraction meniscus ring
+    const rGeo = new THREE.TorusGeometry(rTop * 0.97, 0.006, 8, 48);
+    rGeo.rotateX(Math.PI / 2);
+    const rMat = new THREE.MeshBasicMaterial({
+      color: new THREE.Color(color).multiplyScalar(0.28),
+      transparent: true,
+      opacity: 0.92,
+      depthWrite: false,
+    });
+    ringMesh = new THREE.Mesh(rGeo, rMat);
+    ringMesh.visible = false;
+    ringMesh.renderOrder = 4;
+  }
 
   const api = {
     mesh,
+    meniscusMesh,
+    ringMesh,
     maxHeight,
     fraction: 0,
     setFill(f) {
       const clamped = Math.max(0, Math.min(1, f));
       api.fraction = clamped;
-      mesh.scale.y = Math.max(0.0001, clamped * maxHeight);
+      const currentH = Math.max(0.0001, clamped * maxHeight);
+      mesh.scale.y = currentH;
       mesh.visible = clamped > 0.002;
+
+      if (meniscusMesh) {
+        const topY = yBase + currentH;
+        meniscusMesh.position.y = topY;
+        meniscusMesh.visible = clamped > 0.006;
+        ringMesh.position.y = topY;
+        ringMesh.visible = clamped > 0.006;
+      }
+      if (api.onSetFill) api.onSetFill(clamped);
     },
-    setColor(c) { mat.color.set(c); },
+    setColor(c) {
+      mat.color.set(c);
+      if (meniscusMesh) {
+        const darkColor = new THREE.Color(c).multiplyScalar(0.42);
+        meniscusMesh.material.color.copy(darkColor);
+        ringMesh.material.color.copy(new THREE.Color(c).multiplyScalar(0.28));
+      }
+      if (api.onSetColor) api.onSetColor(c);
+    },
     getColor() { return mat.color.clone(); },
-    setOpacity(o) { mat.opacity = o; },
+    setOpacity(o) {
+      mat.opacity = o;
+      if (meniscusMesh) meniscusMesh.material.opacity = Math.min(1, o * 1.1);
+    },
   };
   mesh.userData.api = api;
   return api;
@@ -214,18 +272,23 @@ export function createBeaker({ name = 'Beaker', capacity = 250, radius = 0.35, h
 
   const liquid = makeLiquid({
     rTop: radius - t * 1.6, rBottom: radius - t * 1.6,
-    maxHeight: height - 0.06, yBase: t * 2, color: 0xcfe7f2,
+    maxHeight: height - 0.06, yBase: t * 2, color: 0x4aaed6, opacity: 0.88, hasMeniscus: true,
   });
   g.add(liquid.mesh);
+  if (liquid.meniscusMesh) {
+    g.add(liquid.meniscusMesh);
+    g.add(liquid.ringMesh);
+  }
 
   const grad = new THREE.Mesh(
     new THREE.PlaneGeometry(0.16, height * 0.6),
     new THREE.MeshBasicMaterial({
       map: graduationTexture({ top: 0, bottom: capacity, step: capacity / 5, minor: capacity / 20, flip: true }),
-      transparent: true, opacity: 0.8,
+      transparent: true, opacity: 0.85, depthWrite: false,
     }),
   );
-  grad.position.set(0, height * 0.42, radius + 0.002);
+  grad.renderOrder = 5;
+  grad.position.set(0, height * 0.42, radius + 0.003);
   g.add(grad);
 
   g.userData.liquid = liquid;
@@ -247,10 +310,13 @@ export function createConicalFlask({ name = 'Conical flask', capacity = 250, act
     vec(neckR + 0.03, bodyH + neckH - 0.03),
     vec(neckR - t, bodyH + 0.02), vec(R - t, 0.08), vec(R - t, t), vec(0, t),
   ];
-  g.add(lathe(outer, 54));
+  const flaskMesh = lathe(outer, 54);
+  flaskMesh.renderOrder = 3;
+  g.add(flaskMesh);
 
   const liquid = makeLiquid({
-    rTop: R * 0.72, rBottom: R - t * 1.4, maxHeight: bodyH * 0.8, yBase: t, color: 0xcfe7f2,
+    rTop: R * 0.72, rBottom: R - t * 1.4, maxHeight: bodyH * 0.8, yBase: t,
+    color: 0x4aaed6, opacity: 0.88, hasMeniscus: true,
   });
   // slight cone so the liquid follows the flask wall
   liquid.mesh.geometry.dispose();
@@ -258,11 +324,16 @@ export function createConicalFlask({ name = 'Conical flask', capacity = 250, act
   lg.translate(0, 0.5, 0);
   liquid.mesh.geometry = lg;
   g.add(liquid.mesh);
+  if (liquid.meniscusMesh) {
+    g.add(liquid.meniscusMesh);
+    g.add(liquid.ringMesh);
+  }
 
   const capLabel = new THREE.Mesh(
     new THREE.PlaneGeometry(0.34, 0.1),
-    new THREE.MeshBasicMaterial({ map: labelTexture(`${capacity} mL`, 'CONICAL', '#2c5f86'), transparent: true }),
+    new THREE.MeshBasicMaterial({ map: labelTexture(`${capacity} mL`, 'CONICAL', '#2c5f86'), transparent: true, depthWrite: false }),
   );
+  capLabel.renderOrder = 5;
   capLabel.position.set(0, bodyH * 0.55, R * 0.72);
   capLabel.rotation.x = -0.12;
   g.add(capLabel);
@@ -288,18 +359,29 @@ export function createVolumetricFlask({ name = 'Volumetric flask 1000 mL', actio
   }
   pts.push(vec(neckR, bulbH + 0.12), vec(neckR, bulbH + neckH), vec(neckR + 0.028, bulbH + neckH));
   pts.push(vec(neckR - t, bulbH + neckH - 0.02), vec(neckR - t, bulbH + 0.1), vec(R - t, 0.12), vec(0, t));
-  g.add(lathe(pts, 54));
+  const vFlask = lathe(pts, 54);
+  vFlask.renderOrder = 3;
+  g.add(vFlask);
 
   const ring = new THREE.Mesh(new THREE.TorusGeometry(neckR + 0.004, 0.006, 8, 36), MATERIALS.frosted);
   ring.rotation.x = Math.PI / 2;
   ring.position.y = bulbH + neckH * 0.55;
+  ring.renderOrder = 5;
   g.add(ring);
 
-  const liquid = makeLiquid({ rTop: R * 0.92, rBottom: R * 0.3, maxHeight: bulbH * 0.9, yBase: 0.02, color: 0xdaeef5 });
+  const liquid = makeLiquid({ rTop: R * 0.92, rBottom: R * 0.3, maxHeight: bulbH * 0.9, yBase: 0.02, color: 0x4aaed6, opacity: 0.88, hasMeniscus: true });
   g.add(liquid.mesh);
+  if (liquid.meniscusMesh) {
+    g.add(liquid.meniscusMesh);
+    g.add(liquid.ringMesh);
+  }
 
-  const neckLiquid = makeLiquid({ rTop: neckR - t, rBottom: neckR - t, maxHeight: neckH * 0.62, yBase: bulbH + 0.1, color: 0xdaeef5 });
+  const neckLiquid = makeLiquid({ rTop: neckR - t, rBottom: neckR - t, maxHeight: neckH * 0.62, yBase: bulbH + 0.1, color: 0x4aaed6, opacity: 0.88, hasMeniscus: true });
   g.add(neckLiquid.mesh);
+  if (neckLiquid.meniscusMesh) {
+    g.add(neckLiquid.meniscusMesh);
+    g.add(neckLiquid.ringMesh);
+  }
 
   g.userData.liquid = liquid;
   g.userData.neckLiquid = neckLiquid;
@@ -316,20 +398,28 @@ export function createMeasuringCylinder({ name = 'Measuring cylinder 100 mL', ca
   const R = 0.19, H = 1.0, t = 0.01;
   const base = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.8, R * 1.9, 0.06, 48), MATERIALS.glass);
   base.position.y = 0.03;
+  base.renderOrder = 3;
   g.add(base);
-  g.add(lathe([vec(0, 0.06), vec(R, 0.06), vec(R, H), vec(R - t, H), vec(R - t, 0.08), vec(0, 0.08)], 48));
+  const cyl = lathe([vec(0, 0.06), vec(R, 0.06), vec(R, H), vec(R - t, H), vec(R - t, 0.08), vec(0, 0.08)], 48);
+  cyl.renderOrder = 3;
+  g.add(cyl);
 
-  const liquid = makeLiquid({ rTop: R - t * 1.5, rBottom: R - t * 1.5, maxHeight: H - 0.14, yBase: 0.08, color: 0xcfe7f2 });
+  const liquid = makeLiquid({ rTop: R - t * 1.5, rBottom: R - t * 1.5, maxHeight: H - 0.14, yBase: 0.08, color: 0x4aaed6, opacity: 0.88, hasMeniscus: true });
   g.add(liquid.mesh);
+  if (liquid.meniscusMesh) {
+    g.add(liquid.meniscusMesh);
+    g.add(liquid.ringMesh);
+  }
 
   const grad = new THREE.Mesh(
     new THREE.PlaneGeometry(0.13, H - 0.16),
     new THREE.MeshBasicMaterial({
       map: graduationTexture({ top: 0, bottom: capacity, step: capacity / 5, minor: capacity / 50, flip: true }),
-      transparent: true, opacity: 0.85,
+      transparent: true, opacity: 0.88, depthWrite: false,
     }),
   );
-  grad.position.set(0, 0.08 + (H - 0.16) / 2, R + 0.002);
+  grad.renderOrder = 5;
+  grad.position.set(0, 0.08 + (H - 0.16) / 2, R + 0.003);
   g.add(grad);
 
   g.userData.liquid = liquid;
@@ -350,11 +440,13 @@ export function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
     vec(0, 0.28), vec(R, 0.3), vec(R, barrelH), vec(R + 0.026, barrelH + 0.04),
     vec(R + 0.026, barrelH + 0.09), vec(R - t, barrelH + 0.05), vec(R - t, 0.32), vec(0, 0.3),
   ], 48);
+  barrel.renderOrder = 3;
   g.add(barrel);
 
   // stopcock body and PTFE key
   const stopBody = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.25, R * 1.25, 0.17, 32), MATERIALS.glass);
   stopBody.position.y = 0.2;
+  stopBody.renderOrder = 3;
   g.add(stopBody);
 
   const key = new THREE.Group();
@@ -370,29 +462,56 @@ export function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   // delivery tip
   const tip = lathe([vec(0, 0), vec(0.028, 0.0), vec(0.028, 0.1), vec(0.016, 0.16), vec(0.016, 0.2), vec(0, 0.2)], 28);
   tip.position.y = 0.0;
+  tip.renderOrder = 3;
   const tipGroup = new THREE.Group();
   tipGroup.add(tip);
   tipGroup.position.y = -0.09;
   g.add(tipGroup);
   const taper = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.9, 0.03, 0.14, 28), MATERIALS.glass);
   taper.position.y = 0.08;
+  taper.renderOrder = 3;
   g.add(taper);
 
-  // liquid column — index 0 at the TOP of the scale
+  // liquid column inside burette (with realistic curved surface meniscus)
   const liquid = makeLiquid({
-    rTop: R - t * 1.4, rBottom: R - t * 1.4, maxHeight: barrelH - 0.35, yBase: 0.32,
-    color: 0xe3f0f6, opacity: 0.72,
+    rTop: R - t * 1.3, rBottom: R - t * 1.3, maxHeight: barrelH - 0.35, yBase: 0.32,
+    color: 0x4aaed6, opacity: 0.88, hasMeniscus: true,
   });
   g.add(liquid.mesh);
+  if (liquid.meniscusMesh) {
+    g.add(liquid.meniscusMesh);
+    g.add(liquid.ringMesh);
+  }
+
+  // Liquid inside stopcock and delivery tip (filled once burette is charged)
+  const tipLiquidGeo = new THREE.CylinderGeometry(0.016, 0.012, 0.38, 24);
+  tipLiquidGeo.translate(0, 0.19, 0);
+  const tipLiquidMat = new THREE.MeshPhysicalMaterial({
+    color: 0x4aaed6, transparent: true, opacity: 0.88, roughness: 0.02,
+    clearcoat: 0.9, depthWrite: false, ior: 1.333,
+  });
+  const tipLiquid = new THREE.Mesh(tipLiquidGeo, tipLiquidMat);
+  tipLiquid.position.y = -0.06;
+  tipLiquid.visible = false;
+  tipLiquid.renderOrder = 2;
+  g.add(tipLiquid);
+
+  liquid.onSetFill = (clamped) => {
+    tipLiquid.visible = clamped > 0.01;
+  };
+  liquid.onSetColor = (c) => {
+    tipLiquidMat.color.set(c);
+  };
 
   const grad = new THREE.Mesh(
     new THREE.PlaneGeometry(0.16, barrelH - 0.35),
     new THREE.MeshBasicMaterial({
       map: graduationTexture({ top: 0, bottom: capacity, step: 5, minor: 1, flip: false }),
-      transparent: true, opacity: 0.9,
+      transparent: true, opacity: 0.92, depthWrite: false,
     }),
   );
-  grad.position.set(0, 0.32 + (barrelH - 0.35) / 2, R + 0.002);
+  grad.renderOrder = 5;
+  grad.position.set(0, 0.32 + (barrelH - 0.35) / 2, R + 0.003);
   g.add(grad);
 
   g.userData.liquid = liquid;
