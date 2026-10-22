@@ -53,7 +53,7 @@ const nextId = (prefix) => `${prefix}_${++uid}`;
  * Build a liquid body that fills a vessel from yBase upward.
  * Includes a realistic surface meniscus that moves with the liquid level.
  */
-export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, opacity = 0.88, hasMeniscus = true }) {
+export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x1e88e5, opacity = 0.92, hasMeniscus = true }) {
   const geo = new THREE.CylinderGeometry(rTop, rBottom, 1, 48, 1, false);
   geo.translate(0, 0.5, 0); // pivot at the base
   const mat = new THREE.MeshPhysicalMaterial({
@@ -75,9 +75,9 @@ export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, 
     const mGeo = new THREE.CylinderGeometry(rTop * 0.99, rTop * 0.93, 0.025, 48, 1, false);
     mGeo.translate(0, -0.012, 0);
     const mMat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(color).multiplyScalar(0.42),
+      color: 0x0a335c,
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.98,
       roughness: 0.04,
       clearcoat: 1.0,
       clearcoatRoughness: 0.02,
@@ -92,9 +92,9 @@ export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, 
     const rGeo = new THREE.TorusGeometry(rTop * 0.97, 0.006, 8, 48);
     rGeo.rotateX(Math.PI / 2);
     const rMat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(color).multiplyScalar(0.28),
+      color: 0x051d38,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.95,
       depthWrite: false,
     });
     ringMesh = new THREE.Mesh(rGeo, rMat);
@@ -475,7 +475,7 @@ export function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   // liquid column inside burette (with realistic curved surface meniscus)
   const liquid = makeLiquid({
     rTop: R - t * 1.3, rBottom: R - t * 1.3, maxHeight: barrelH - 0.35, yBase: 0.32,
-    color: 0x4aaed6, opacity: 0.88, hasMeniscus: true,
+    color: 0x1e88e5, opacity: 0.92, hasMeniscus: true,
   });
   g.add(liquid.mesh);
   if (liquid.meniscusMesh) {
@@ -487,7 +487,7 @@ export function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   const tipLiquidGeo = new THREE.CylinderGeometry(0.016, 0.012, 0.38, 24);
   tipLiquidGeo.translate(0, 0.19, 0);
   const tipLiquidMat = new THREE.MeshPhysicalMaterial({
-    color: 0x4aaed6, transparent: true, opacity: 0.88, roughness: 0.02,
+    color: 0x1e88e5, transparent: true, opacity: 0.92, roughness: 0.02,
     clearcoat: 0.9, depthWrite: false, ior: 1.333,
   });
   const tipLiquid = new THREE.Mesh(tipLiquidGeo, tipLiquidMat);

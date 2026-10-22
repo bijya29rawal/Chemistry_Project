@@ -24,13 +24,13 @@ export class LabScene {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = 1.02;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xd2dbdb);
-    this.scene.fog = new THREE.Fog(0xd2dbdb, 45, 88);
+    this.scene.background = new THREE.Color(0x232b2e);
+    this.scene.fog = new THREE.Fog(0x232b2e, 42, 85);
 
     this.buildEnvironment();
     this.addLights();
@@ -42,7 +42,7 @@ export class LabScene {
       pmrem.compileEquirectangularShader();
 
       const envScene = new THREE.Scene();
-      envScene.background = new THREE.Color(0xdce5e9);
+      envScene.background = new THREE.Color(0x323e42);
 
       // Overhead fluorescent light banks
       const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
@@ -80,15 +80,15 @@ export class LabScene {
   }
 
   addLights() {
-    const hemi = new THREE.HemisphereLight(0xf5f8fa, 0x8a857b, 1.25);
+    const hemi = new THREE.HemisphereLight(0xe4eff6, 0x4a5459, 0.95);
     hemi.position.set(0, 24, 0);
     this.scene.add(hemi);
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.22);
     this.scene.add(ambient);
 
     // Key directional light with 4K ultra-sharp shadow map
-    const key = new THREE.DirectionalLight(0xfff7ed, 2.3);
+    const key = new THREE.DirectionalLight(0xfff7ed, 1.85);
     key.position.set(6, 22, 12);
     key.castShadow = true;
     key.shadow.mapSize.set(4096, 4096);
@@ -104,12 +104,12 @@ export class LabScene {
     this.keyLight = key;
 
     // Fill light from left
-    const fill = new THREE.DirectionalLight(0xdceaf4, 0.65);
+    const fill = new THREE.DirectionalLight(0xdceaf4, 0.55);
     fill.position.set(-12, 14, 8);
     this.scene.add(fill);
 
     // Back rim light to accentuate glassware silhouettes and bevels
-    const rim = new THREE.DirectionalLight(0xf0f7fc, 0.85);
+    const rim = new THREE.DirectionalLight(0xf0f7fc, 1.1);
     rim.position.set(0, 18, -14);
     this.scene.add(rim);
 

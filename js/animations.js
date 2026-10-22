@@ -33,7 +33,7 @@ export class Animator {
   _initEffects() {
     this.dropGeometry = new THREE.SphereGeometry(0.035, 16, 12);
     this.dropMaterialTemplate = new THREE.MeshPhysicalMaterial({
-      color: 0xdff0f6, transparent: true, opacity: 0.92, roughness: 0.02,
+      color: 0x1e88e5, transparent: true, opacity: 0.92, roughness: 0.02,
       clearcoat: 1.0, clearcoatRoughness: 0.02, ior: 1.333,
     });
 
@@ -41,7 +41,7 @@ export class Animator {
     const streamGeo = new THREE.CylinderGeometry(0.03, 0.045, 1, 18, 1, true);
     streamGeo.translate(0, -0.5, 0); // pivot at the top
     this.stream = new THREE.Mesh(streamGeo, new THREE.MeshPhysicalMaterial({
-      color: 0xcfe7f2, transparent: true, opacity: 0.82, roughness: 0.02,
+      color: 0x1e88e5, transparent: true, opacity: 0.88, roughness: 0.02,
       clearcoat: 0.9, depthWrite: false, ior: 1.333,
     }));
     this.stream.visible = false;
@@ -154,7 +154,7 @@ export class Animator {
    * Emit one falling droplet from `from` to `to`.
    * The drop stretches slightly as it accelerates, like a real drop.
    */
-  emitDrop(from, to, color = 0xdff0f6, duration = 0.42) {
+  emitDrop(from, to, color = 0x1e88e5, duration = 0.42) {
     const drop = this._getDrop();
     drop.mesh.material.color.set(color);
     drop.mesh.position.copy(from);
@@ -184,7 +184,7 @@ export class Animator {
 
   /* ---------------- pouring stream ---------------- */
 
-  showStream(from, to, color = 0xcfe7f2, radius = 0.04) {
+  showStream(from, to, color = 0x1e88e5, radius = 0.04) {
     const length = from.distanceTo(to);
     this.stream.material.color.set(color);
     this.stream.position.copy(from);
@@ -198,14 +198,14 @@ export class Animator {
   hideStream() { this.stream.visible = false; }
 
   /** Pour from one point to another for a duration, with the stream visible. */
-  async pour(from, to, duration = 1.4, color = 0xcfe7f2) {
+  async pour(from, to, duration = 1.4, color = 0x1e88e5) {
     this.showStream(from, to, color);
     await this.tween({
       duration, ease: EASE.linear,
-      onUpdate: (e) => { this.stream.material.opacity = 0.75 * Math.sin(Math.min(1, e * 1.05) * Math.PI); },
+      onUpdate: (e) => { this.stream.material.opacity = 0.88 * Math.sin(Math.min(1, e * 1.05) * Math.PI); },
     });
     this.hideStream();
-    this.stream.material.opacity = 0.75;
+    this.stream.material.opacity = 0.88;
   }
 
   /* ---------------- swirling and stirring ---------------- */

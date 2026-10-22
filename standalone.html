@@ -573,31 +573,31 @@ const CONFIG = {
 const REAGENTS = {
   edta: {
     key: 'edta', name: 'EDTA solution', formula: 'Na2H2Y·2H2O',
-    molarity: 0.01, unit: 'M', color: 0x4aaed6, container: 'Reagent bottle',
+    molarity: 0.01, unit: 'M', color: 0x1e88e5, container: 'Reagent bottle',
     stock_mL: 1000, experiments: ['hardness', 'shw_prep'],
     note: 'Disodium salt of ethylenediaminetetraacetic acid, 0.01 M.',
   },
   hcl: {
     key: 'hcl', name: 'Hydrochloric acid', formula: 'HCl',
-    normality: 0.02, unit: 'N', color: 0x58b6de, container: 'Reagent bottle',
+    normality: 0.02, unit: 'N', color: 0x1976d2, container: 'Reagent bottle',
     stock_mL: 1000, experiments: ['alkalinity_total', 'alkalinity_mixed', 'acidbase'],
     note: 'Standardised 0.02 N HCl.',
   },
   naoh: {
     key: 'naoh', name: 'Sodium hydroxide', formula: 'NaOH',
-    normality: 0.02, unit: 'N', color: 0x50b0db, container: 'Reagent bottle',
+    normality: 0.02, unit: 'N', color: 0x2196f3, container: 'Reagent bottle',
     stock_mL: 1000, experiments: ['acidbase'],
     note: 'Standardised 0.02 N NaOH (used as the sample in the acid–base run).',
   },
   agno3: {
     key: 'agno3', name: 'Silver nitrate', formula: 'AgNO3',
-    normality: 0.0141, unit: 'N', color: 0x62bee2, container: 'Amber bottle',
+    normality: 0.0141, unit: 'N', color: 0x0288d1, container: 'Amber bottle',
     stock_mL: 500, experiments: ['chloride'],
     note: '0.0141 N AgNO3 — 1 mL ≡ 0.5 mg Cl⁻ (Mohr method).',
   },
   buffer: {
     key: 'buffer', name: 'Ammonia buffer pH 10', formula: 'NH4Cl / NH4OH',
-    color: 0x4eb2da, container: 'Reagent bottle', stock_mL: 250,
+    color: 0x29b6f6, container: 'Reagent bottle', stock_mL: 250,
     experiments: ['hardness'], doseDrops: 0, doseVolume_mL: 2,
     note: 'Holds the sample at pH 10 so the EBT–Mg complex is stable.',
   },
@@ -632,7 +632,7 @@ const REAGENTS = {
   },
   distilled: {
     key: 'distilled', name: 'Distilled water', formula: 'H2O',
-    color: 0x48b6e6, container: 'Wash bottle', stock_mL: 2000,
+    color: 0x29b6f6, container: 'Wash bottle', stock_mL: 2000,
     experiments: ['all'], note: 'For rinsing and making up to the mark.',
   },
 };
@@ -642,32 +642,32 @@ const REAGENTS = {
 /* ------------------------------------------------------------------ */
 const SAMPLES = {
   distilled: {
-    key: 'distilled', name: 'Distilled water', color: 0x48b6e6, tint: 0.05,
+    key: 'distilled', name: 'Distilled water', color: 0x29b6f6, tint: 0.05,
     pH: 6.8, hardness_mgL: 2, alkalinity_P_mgL: 0, alkalinity_T_mgL: 4,
     chloride_mgL: 1, conductivity_uS: 3, turbidity_NTU: 0.2,
     normality: 0, description: 'Freshly distilled, used as blank and for rinsing.',
   },
   tap: {
-    key: 'tap', name: 'Tap water', color: 0x44aed8, tint: 0.12,
+    key: 'tap', name: 'Tap water', color: 0x1e88e5, tint: 0.12,
     pH: 7.6, hardness_mgL: 184, alkalinity_P_mgL: 0, alkalinity_T_mgL: 142,
     chloride_mgL: 46, conductivity_uS: 512, turbidity_NTU: 1.4,
     normality: 0, description: 'Municipal supply, moderately hard.',
   },
   natural: {
-    key: 'natural', name: 'Natural (bore-well) water', color: 0x42a8cf, tint: 0.2,
+    key: 'natural', name: 'Natural (bore-well) water', color: 0x0288d1, tint: 0.2,
     pH: 8.4, hardness_mgL: 326, alkalinity_P_mgL: 22, alkalinity_T_mgL: 268,
     chloride_mgL: 118, conductivity_uS: 940, turbidity_NTU: 8.6,
     normality: 0, description: 'Ground water, hard, carbonate alkalinity present.',
   },
   standard_hard: {
-    key: 'standard_hard', name: 'Standard hard water', color: 0x4ab2dc, tint: 0.07,
+    key: 'standard_hard', name: 'Standard hard water', color: 0x1976d2, tint: 0.07,
     pH: 7.0, hardness_mgL: null, /* taken from CONFIG at run time */
     alkalinity_P_mgL: 0, alkalinity_T_mgL: 0,
     chloride_mgL: 0, conductivity_uS: 6, turbidity_NTU: 0.3,
     normality: 0, description: 'Prepared from AR CaCO3 — strength set in Settings.',
   },
   unknown: {
-    key: 'unknown', name: 'Unknown sample (X-7)', color: 0x3ea2c9, tint: 0.18,
+    key: 'unknown', name: 'Unknown sample (X-7)', color: 0x1565c0, tint: 0.18,
     pH: 9.3, hardness_mgL: 248, alkalinity_P_mgL: 64, alkalinity_T_mgL: 196,
     chloride_mgL: 82, conductivity_uS: 726, turbidity_NTU: 4.1,
     normality: 0.012, description: 'Issued for analysis. Composition not disclosed.',
@@ -1628,7 +1628,7 @@ const INDICATOR_COLORS = {
     name: 'Phenolphthalein',
     before: 0xe2669b,      // pink in alkali
     transition: 0xf0b9cf,
-    after: 0x58b6de,       // colourless aqueous tint
+    after: 0x1e88e5,       // colourless water tint (vibrant blue)
     beforeLabel: 'Pink', afterLabel: 'Colourless',
   },
   methylorange: {
@@ -1656,7 +1656,7 @@ const TRANSITION_START = 0.965;
  */
 function indicatorColorAt(indicatorKey, progress) {
   const palette = INDICATOR_COLORS[indicatorKey];
-  if (!palette) return new THREE.Color(0x4aaed6);
+  if (!palette) return new THREE.Color(0x1e88e5);
   const before = new THREE.Color(palette.before);
   const mid = new THREE.Color(palette.transition);
   const after = new THREE.Color(palette.after);
@@ -1822,7 +1822,7 @@ const nextId = (prefix) => `${prefix}_${++uid}`;
  * Build a liquid body that fills a vessel from yBase upward.
  * Includes a realistic surface meniscus that moves with the liquid level.
  */
-function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, opacity = 0.88, hasMeniscus = true }) {
+function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x1e88e5, opacity = 0.92, hasMeniscus = true }) {
   const geo = new THREE.CylinderGeometry(rTop, rBottom, 1, 48, 1, false);
   geo.translate(0, 0.5, 0); // pivot at the base
   const mat = new THREE.MeshPhysicalMaterial({
@@ -1844,9 +1844,9 @@ function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, opacity
     const mGeo = new THREE.CylinderGeometry(rTop * 0.99, rTop * 0.93, 0.025, 48, 1, false);
     mGeo.translate(0, -0.012, 0);
     const mMat = new THREE.MeshPhysicalMaterial({
-      color: new THREE.Color(color).multiplyScalar(0.42),
+      color: 0x0a335c,
       transparent: true,
-      opacity: 0.95,
+      opacity: 0.98,
       roughness: 0.04,
       clearcoat: 1.0,
       clearcoatRoughness: 0.02,
@@ -1861,9 +1861,9 @@ function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0x4aaed6, opacity
     const rGeo = new THREE.TorusGeometry(rTop * 0.97, 0.006, 8, 48);
     rGeo.rotateX(Math.PI / 2);
     const rMat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color(color).multiplyScalar(0.28),
+      color: 0x051d38,
       transparent: true,
-      opacity: 0.92,
+      opacity: 0.95,
       depthWrite: false,
     });
     ringMesh = new THREE.Mesh(rGeo, rMat);
@@ -2244,7 +2244,7 @@ function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   // liquid column inside burette (with realistic curved surface meniscus)
   const liquid = makeLiquid({
     rTop: R - t * 1.3, rBottom: R - t * 1.3, maxHeight: barrelH - 0.35, yBase: 0.32,
-    color: 0x4aaed6, opacity: 0.88, hasMeniscus: true,
+    color: 0x1e88e5, opacity: 0.92, hasMeniscus: true,
   });
   g.add(liquid.mesh);
   if (liquid.meniscusMesh) {
@@ -2256,7 +2256,7 @@ function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   const tipLiquidGeo = new THREE.CylinderGeometry(0.016, 0.012, 0.38, 24);
   tipLiquidGeo.translate(0, 0.19, 0);
   const tipLiquidMat = new THREE.MeshPhysicalMaterial({
-    color: 0x4aaed6, transparent: true, opacity: 0.88, roughness: 0.02,
+    color: 0x1e88e5, transparent: true, opacity: 0.92, roughness: 0.02,
     clearcoat: 0.9, depthWrite: false, ior: 1.333,
   });
   const tipLiquid = new THREE.Mesh(tipLiquidGeo, tipLiquidMat);
@@ -2944,18 +2944,19 @@ function createWallTileTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 512; canvas.height = 512;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#e8eeeb';
+  // Softer dark slate-teal ceramic wall tile to eliminate blinding glare
+  ctx.fillStyle = '#4a5b60';
   ctx.fillRect(0, 0, 512, 512);
 
   // Subtle grout lines (64px tiles)
-  ctx.strokeStyle = '#c6cfcb';
+  ctx.strokeStyle = '#39474c';
   ctx.lineWidth = 3;
   for (let i = 0; i <= 512; i += 64) {
     ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
   }
   // Subtle top/left tile bevel highlights
-  ctx.strokeStyle = '#fbfdfc';
+  ctx.strokeStyle = '#5a6e74';
   ctx.lineWidth = 2;
   for (let x = 0; x < 512; x += 64) {
     for (let y = 0; y < 512; y += 64) {
@@ -2981,11 +2982,12 @@ function createFloorTileTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 512; canvas.height = 512;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#b7b0a3';
+  // Warm muted slate floor vinyl
+  ctx.fillStyle = '#63605a';
   ctx.fillRect(0, 0, 512, 512);
 
   // Large commercial lab vinyl tiles (128px)
-  ctx.strokeStyle = '#9c9588';
+  ctx.strokeStyle = '#4e4c47';
   ctx.lineWidth = 4;
   for (let i = 0; i <= 512; i += 128) {
     ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
@@ -3048,7 +3050,7 @@ class Laboratory {
     // tiled wall behind the bench
     const wallMat = new THREE.MeshStandardMaterial({
       map: createWallTileTexture(),
-      roughness: 0.45,
+      roughness: 0.52,
       metalness: 0.04,
     });
     const wall = new THREE.Mesh(new THREE.BoxGeometry(46, 26, 0.4), wallMat);
@@ -3056,17 +3058,22 @@ class Laboratory {
     wall.receiveShadow = true;
     this.root.add(wall);
 
-    // dado band so the wall is not a flat sheet of colour
+    // dado band with deeper slate teal tone for visual grounding
     const dado = new THREE.Mesh(
       new THREE.BoxGeometry(46, 2.4, 0.06),
-      new THREE.MeshStandardMaterial({ color: 0x76959b, roughness: 0.45, metalness: 0.1 }),
+      new THREE.MeshStandardMaterial({ color: 0x2e3d42, roughness: 0.45, metalness: 0.1 }),
     );
     dado.position.set(0, 10.6, -3.39);
     this.root.add(dado);
 
+    const sideWallMat = new THREE.MeshStandardMaterial({
+      color: 0x3d4c51,
+      roughness: 0.6,
+      metalness: 0.02,
+    });
     const sideWallGeo = new THREE.BoxGeometry(0.4, 26, 34);
     for (const x of [-23, 23]) {
-      const sw = new THREE.Mesh(sideWallGeo, wallMat);
+      const sw = new THREE.Mesh(sideWallGeo, sideWallMat);
       sw.position.set(x, 13, 0);
       this.root.add(sw);
     }
@@ -3410,7 +3417,7 @@ class Animator {
   _initEffects() {
     this.dropGeometry = new THREE.SphereGeometry(0.035, 16, 12);
     this.dropMaterialTemplate = new THREE.MeshPhysicalMaterial({
-      color: 0xdff0f6, transparent: true, opacity: 0.92, roughness: 0.02,
+      color: 0x1e88e5, transparent: true, opacity: 0.92, roughness: 0.02,
       clearcoat: 1.0, clearcoatRoughness: 0.02, ior: 1.333,
     });
 
@@ -3418,7 +3425,7 @@ class Animator {
     const streamGeo = new THREE.CylinderGeometry(0.03, 0.045, 1, 18, 1, true);
     streamGeo.translate(0, -0.5, 0); // pivot at the top
     this.stream = new THREE.Mesh(streamGeo, new THREE.MeshPhysicalMaterial({
-      color: 0xcfe7f2, transparent: true, opacity: 0.82, roughness: 0.02,
+      color: 0x1e88e5, transparent: true, opacity: 0.88, roughness: 0.02,
       clearcoat: 0.9, depthWrite: false, ior: 1.333,
     }));
     this.stream.visible = false;
@@ -3531,7 +3538,7 @@ class Animator {
    * Emit one falling droplet from `from` to `to`.
    * The drop stretches slightly as it accelerates, like a real drop.
    */
-  emitDrop(from, to, color = 0xdff0f6, duration = 0.42) {
+  emitDrop(from, to, color = 0x1e88e5, duration = 0.42) {
     const drop = this._getDrop();
     drop.mesh.material.color.set(color);
     drop.mesh.position.copy(from);
@@ -3561,7 +3568,7 @@ class Animator {
 
   /* ---------------- pouring stream ---------------- */
 
-  showStream(from, to, color = 0xcfe7f2, radius = 0.04) {
+  showStream(from, to, color = 0x1e88e5, radius = 0.04) {
     const length = from.distanceTo(to);
     this.stream.material.color.set(color);
     this.stream.position.copy(from);
@@ -3575,14 +3582,14 @@ class Animator {
   hideStream() { this.stream.visible = false; }
 
   /** Pour from one point to another for a duration, with the stream visible. */
-  async pour(from, to, duration = 1.4, color = 0xcfe7f2) {
+  async pour(from, to, duration = 1.4, color = 0x1e88e5) {
     this.showStream(from, to, color);
     await this.tween({
       duration, ease: EASE.linear,
-      onUpdate: (e) => { this.stream.material.opacity = 0.75 * Math.sin(Math.min(1, e * 1.05) * Math.PI); },
+      onUpdate: (e) => { this.stream.material.opacity = 0.88 * Math.sin(Math.min(1, e * 1.05) * Math.PI); },
     });
     this.hideStream();
-    this.stream.material.opacity = 0.75;
+    this.stream.material.opacity = 0.88;
   }
 
   /* ---------------- swirling and stirring ---------------- */
@@ -5543,13 +5550,13 @@ class LabScene {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.15;
+    this.renderer.toneMappingExposure = 1.02;
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     container.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xd2dbdb);
-    this.scene.fog = new THREE.Fog(0xd2dbdb, 45, 88);
+    this.scene.background = new THREE.Color(0x232b2e);
+    this.scene.fog = new THREE.Fog(0x232b2e, 42, 85);
 
     this.buildEnvironment();
     this.addLights();
@@ -5561,7 +5568,7 @@ class LabScene {
       pmrem.compileEquirectangularShader();
 
       const envScene = new THREE.Scene();
-      envScene.background = new THREE.Color(0xdce5e9);
+      envScene.background = new THREE.Color(0x323e42);
 
       // Overhead fluorescent light banks
       const lightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
@@ -5599,15 +5606,15 @@ class LabScene {
   }
 
   addLights() {
-    const hemi = new THREE.HemisphereLight(0xf5f8fa, 0x8a857b, 1.25);
+    const hemi = new THREE.HemisphereLight(0xe4eff6, 0x4a5459, 0.95);
     hemi.position.set(0, 24, 0);
     this.scene.add(hemi);
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.4);
+    const ambient = new THREE.AmbientLight(0xffffff, 0.22);
     this.scene.add(ambient);
 
     // Key directional light with 4K ultra-sharp shadow map
-    const key = new THREE.DirectionalLight(0xfff7ed, 2.3);
+    const key = new THREE.DirectionalLight(0xfff7ed, 1.85);
     key.position.set(6, 22, 12);
     key.castShadow = true;
     key.shadow.mapSize.set(4096, 4096);
@@ -5623,12 +5630,12 @@ class LabScene {
     this.keyLight = key;
 
     // Fill light from left
-    const fill = new THREE.DirectionalLight(0xdceaf4, 0.65);
+    const fill = new THREE.DirectionalLight(0xdceaf4, 0.55);
     fill.position.set(-12, 14, 8);
     this.scene.add(fill);
 
     // Back rim light to accentuate glassware silhouettes and bevels
-    const rim = new THREE.DirectionalLight(0xf0f7fc, 0.85);
+    const rim = new THREE.DirectionalLight(0xf0f7fc, 1.1);
     rim.position.set(0, 18, -14);
     this.scene.add(rim);
 

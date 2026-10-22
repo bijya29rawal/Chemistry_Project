@@ -24,18 +24,19 @@ function createWallTileTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 512; canvas.height = 512;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#e8eeeb';
+  // Softer dark slate-teal ceramic wall tile to eliminate blinding glare
+  ctx.fillStyle = '#4a5b60';
   ctx.fillRect(0, 0, 512, 512);
 
   // Subtle grout lines (64px tiles)
-  ctx.strokeStyle = '#c6cfcb';
+  ctx.strokeStyle = '#39474c';
   ctx.lineWidth = 3;
   for (let i = 0; i <= 512; i += 64) {
     ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
   }
   // Subtle top/left tile bevel highlights
-  ctx.strokeStyle = '#fbfdfc';
+  ctx.strokeStyle = '#5a6e74';
   ctx.lineWidth = 2;
   for (let x = 0; x < 512; x += 64) {
     for (let y = 0; y < 512; y += 64) {
@@ -61,11 +62,12 @@ function createFloorTileTexture() {
   const canvas = document.createElement('canvas');
   canvas.width = 512; canvas.height = 512;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#b7b0a3';
+  // Warm muted slate floor vinyl
+  ctx.fillStyle = '#63605a';
   ctx.fillRect(0, 0, 512, 512);
 
   // Large commercial lab vinyl tiles (128px)
-  ctx.strokeStyle = '#9c9588';
+  ctx.strokeStyle = '#4e4c47';
   ctx.lineWidth = 4;
   for (let i = 0; i <= 512; i += 128) {
     ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
@@ -128,7 +130,7 @@ export class Laboratory {
     // tiled wall behind the bench
     const wallMat = new THREE.MeshStandardMaterial({
       map: createWallTileTexture(),
-      roughness: 0.45,
+      roughness: 0.52,
       metalness: 0.04,
     });
     const wall = new THREE.Mesh(new THREE.BoxGeometry(46, 26, 0.4), wallMat);
@@ -136,17 +138,22 @@ export class Laboratory {
     wall.receiveShadow = true;
     this.root.add(wall);
 
-    // dado band so the wall is not a flat sheet of colour
+    // dado band with deeper slate teal tone for visual grounding
     const dado = new THREE.Mesh(
       new THREE.BoxGeometry(46, 2.4, 0.06),
-      new THREE.MeshStandardMaterial({ color: 0x76959b, roughness: 0.45, metalness: 0.1 }),
+      new THREE.MeshStandardMaterial({ color: 0x2e3d42, roughness: 0.45, metalness: 0.1 }),
     );
     dado.position.set(0, 10.6, -3.39);
     this.root.add(dado);
 
+    const sideWallMat = new THREE.MeshStandardMaterial({
+      color: 0x3d4c51,
+      roughness: 0.6,
+      metalness: 0.02,
+    });
     const sideWallGeo = new THREE.BoxGeometry(0.4, 26, 34);
     for (const x of [-23, 23]) {
-      const sw = new THREE.Mesh(sideWallGeo, wallMat);
+      const sw = new THREE.Mesh(sideWallGeo, sideWallMat);
       sw.position.set(x, 13, 0);
       this.root.add(sw);
     }

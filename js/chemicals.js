@@ -22,7 +22,7 @@ export const INDICATOR_COLORS = {
     name: 'Phenolphthalein',
     before: 0xe2669b,      // pink in alkali
     transition: 0xf0b9cf,
-    after: 0x58b6de,       // colourless aqueous tint
+    after: 0x1e88e5,       // colourless water tint (vibrant blue)
     beforeLabel: 'Pink', afterLabel: 'Colourless',
   },
   methylorange: {
@@ -50,7 +50,7 @@ const TRANSITION_START = 0.965;
  */
 export function indicatorColorAt(indicatorKey, progress) {
   const palette = INDICATOR_COLORS[indicatorKey];
-  if (!palette) return new THREE.Color(0x4aaed6);
+  if (!palette) return new THREE.Color(0x1e88e5);
   const before = new THREE.Color(palette.before);
   const mid = new THREE.Color(palette.transition);
   const after = new THREE.Color(palette.after);
