@@ -14,33 +14,87 @@ import { MATERIALS, tagGroup, lathe, vec } from './glassware.js';
 
 function createDisplay({ width = 0.62, height = 0.3, unit = '' } = {}) {
   const canvas = document.createElement('canvas');
-  canvas.width = 512; canvas.height = 256;
+  canvas.width = 1024; canvas.height = 512;
   const ctx = canvas.getContext('2d');
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 16;
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
 
   const mesh = new THREE.Mesh(
     new THREE.PlaneGeometry(width, height),
-    new THREE.MeshBasicMaterial({ map: tex }),
+    new THREE.MeshStandardMaterial({
+      map: tex,
+      roughness: 0.12,
+      metalness: 0.1,
+    }),
   );
 
   function set(main, sub = unit, state = 'on') {
-    ctx.fillStyle = state === 'off' ? '#1b2124' : '#16302c';
-    ctx.fillRect(0, 0, 512, 256);
+    // Bezel border & LCD backlight
+    ctx.fillStyle = state === 'off' ? '#0d1214' : '#081715';
+    ctx.fillRect(0, 0, 1024, 512);
+
+    // Bezel outer frame
+    ctx.strokeStyle = '#182422';
+    ctx.lineWidth = 14;
+    ctx.strokeRect(7, 7, 1010, 498);
+
     if (state !== 'off') {
-      ctx.fillStyle = '#7ef2c8';
-      ctx.font = '700 132px "IBM Plex Mono", monospace';
+      // LCD panel background
+      ctx.fillStyle = 'rgba(16, 52, 46, 0.45)';
+      ctx.fillRect(20, 20, 984, 472);
+
+      // Faint ghost segments
+      ctx.fillStyle = 'rgba(25, 75, 66, 0.22)';
+      ctx.font = '700 240px "IBM Plex Mono", monospace';
       ctx.textAlign = 'right';
       ctx.textBaseline = 'middle';
-      ctx.fillText(String(main), 400, 118);
-      ctx.font = '500 48px "IBM Plex Mono", monospace';
+      ctx.fillText('888.88', 840, 240);
+
+      // Active digits with emerald phosphor glow
+      ctx.shadowColor = '#64f7c2';
+      ctx.shadowBlur = 18;
+      ctx.fillStyle = '#7ef2c8';
+      ctx.fillText(String(main), 840, 240);
+      ctx.shadowBlur = 0;
+
+      // Unit
+      ctx.font = '600 84px "IBM Plex Mono", monospace';
       ctx.fillStyle = '#4fd0a6';
-      ctx.fillText(String(sub), 486, 200);
+      ctx.fillText(String(sub), 960, 420);
+
+      // Status indicator
+      ctx.font = '700 52px "IBM Plex Sans", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#3ebf98';
+      ctx.fillText('STABLE', 45, 80);
     }
     tex.needsUpdate = true;
   }
   set('', '', 'off');
   return { mesh, set };
+}
+
+function createKeyMaterial(label, baseHex) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 128;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#' + baseHex.toString(16).padStart(6, '0');
+  ctx.fillRect(0, 0, 256, 128);
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
+  ctx.lineWidth = 8;
+  ctx.strokeRect(4, 4, 248, 120);
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '700 56px "IBM Plex Sans", monospace';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(label, 128, 64);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 8;
+  return new THREE.MeshStandardMaterial({ map: tex, roughness: 0.38, metalness: 0.1 });
 }
 
 /* ------------------------------------------------------------------ */
@@ -123,7 +177,7 @@ export function createPHMeter({ name = 'Digital pH meter' } = {}) {
   for (const k of keyDefs) {
     const key = new THREE.Mesh(
       new THREE.BoxGeometry(0.24, 0.06, 0.16),
-      new THREE.MeshStandardMaterial({ color: k.color, roughness: 0.5 }),
+      createKeyMaterial(k.label, k.color),
     );
     key.position.set(k.x, 0.35, 0.26);
     key.userData.part = k.id;
@@ -182,9 +236,9 @@ export function createConductivityMeter({ name = 'Conductivity / TDS meter' } = 
   g.add(display.mesh);
 
   const keys = {};
-  for (const [i, k] of [['power', 0xc0392b], ['read', 0x2e7d5b]].entries()) {
+  for (const [i, k] of [['power', 'PWR', 0xc0392b], ['read', 'READ', 0x2e7d5b]].entries()) {
     const key = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.08, 0.05),
-      new THREE.MeshStandardMaterial({ color: k[1], roughness: 0.5 }));
+      createKeyMaterial(k[1], k[2]));
     key.position.set(-0.24 + i * 0.48, 0.16, 0.36);
     key.userData.part = k[0]; key.userData.owner = g;
     g.add(key);
@@ -254,9 +308,9 @@ export function createTurbidityMeter({ name = 'Turbidity meter (nephelometer)' }
   g.add(lid);
 
   const keys = {};
-  for (const [i, k] of [['power', 0xc0392b], ['cal', 0x2c5f86], ['read', 0x2e7d5b]].entries()) {
-    const key = new THREE.Mesh(new THREE.BoxGeometry(0.17, 0.06, 0.05),
-      new THREE.MeshStandardMaterial({ color: k[1], roughness: 0.5 }));
+  for (const [i, k] of [['power', 'PWR', 0xc0392b], ['cal', 'CAL', 0x2c5f86], ['read', 'READ', 0x2e7d5b]].entries()) {
+    const key = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.06, 0.05),
+      createKeyMaterial(k[1], k[2]));
     key.position.set(-0.36 + i * 0.2, 0.2, 0.41);
     key.userData.part = k[0]; key.userData.owner = g;
     g.add(key);
@@ -279,14 +333,14 @@ export function createBalance({ name = 'Digital analytical balance' } = {}) {
   const body = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.22, 0.85), MATERIALS.plasticWhite);
   body.position.y = 0.11; body.castShadow = true; body.receiveShadow = true;
   g.add(body);
-  const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.02, 28), MATERIALS.steel);
+  const pan = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.3, 0.02, 36), MATERIALS.steel);
   pan.position.set(0, 0.24, -0.06);
   pan.userData.part = 'pan'; pan.userData.owner = g;
   g.add(pan);
   const display = createDisplay({ width: 0.6, height: 0.2, unit: 'mg' });
   display.mesh.position.set(0, 0.12, 0.427);
   g.add(display.mesh);
-  const tare = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.05, 0.05), MATERIALS.plasticBlack);
+  const tare = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.05, 0.05), createKeyMaterial('TARE', 0x283236));
   tare.position.set(0.32, 0.03, 0.43);
   tare.userData.part = 'tare'; tare.userData.owner = g;
   g.add(tare);

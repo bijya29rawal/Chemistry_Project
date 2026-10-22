@@ -20,6 +20,68 @@ import {
   createBalance, createMagneticStirrer, createThermometer, createStopwatch, createWasteJar,
 } from './equipment.js';
 
+function createWallTileTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512; canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#e8eeeb';
+  ctx.fillRect(0, 0, 512, 512);
+
+  // Subtle grout lines (64px tiles)
+  ctx.strokeStyle = '#c6cfcb';
+  ctx.lineWidth = 3;
+  for (let i = 0; i <= 512; i += 64) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
+  }
+  // Subtle top/left tile bevel highlights
+  ctx.strokeStyle = '#fbfdfc';
+  ctx.lineWidth = 2;
+  for (let x = 0; x < 512; x += 64) {
+    for (let y = 0; y < 512; y += 64) {
+      ctx.beginPath();
+      ctx.moveTo(x + 2, y + 62);
+      ctx.lineTo(x + 2, y + 2);
+      ctx.lineTo(x + 62, y + 2);
+      ctx.stroke();
+    }
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(16, 9);
+  tex.anisotropy = 16;
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  return tex;
+}
+
+function createFloorTileTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512; canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#b7b0a3';
+  ctx.fillRect(0, 0, 512, 512);
+
+  // Large commercial lab vinyl tiles (128px)
+  ctx.strokeStyle = '#9c9588';
+  ctx.lineWidth = 4;
+  for (let i = 0; i <= 512; i += 128) {
+    ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 512); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(512, i); ctx.stroke();
+  }
+
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(12, 9);
+  tex.anisotropy = 16;
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
+  return tex;
+}
+
 export const BENCH_TOP_Y = 9.0;
 
 export class Laboratory {
@@ -53,16 +115,22 @@ export class Laboratory {
   /* -------------------- room -------------------- */
 
   buildRoom() {
-    const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(46, 34),
-      new THREE.MeshStandardMaterial({ color: 0xb9b3a7, roughness: 0.92 }),
-    );
+    const floorMat = new THREE.MeshStandardMaterial({
+      map: createFloorTileTexture(),
+      roughness: 0.72,
+      metalness: 0.05,
+    });
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(46, 34), floorMat);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     this.root.add(floor);
 
     // tiled wall behind the bench
-    const wallMat = new THREE.MeshStandardMaterial({ color: 0xdfe3e0, roughness: 0.85 });
+    const wallMat = new THREE.MeshStandardMaterial({
+      map: createWallTileTexture(),
+      roughness: 0.45,
+      metalness: 0.04,
+    });
     const wall = new THREE.Mesh(new THREE.BoxGeometry(46, 26, 0.4), wallMat);
     wall.position.set(0, 13, -3.6);
     wall.receiveShadow = true;
@@ -71,7 +139,7 @@ export class Laboratory {
     // dado band so the wall is not a flat sheet of colour
     const dado = new THREE.Mesh(
       new THREE.BoxGeometry(46, 2.4, 0.06),
-      new THREE.MeshStandardMaterial({ color: 0x8fa3a8, roughness: 0.7 }),
+      new THREE.MeshStandardMaterial({ color: 0x76959b, roughness: 0.45, metalness: 0.1 }),
     );
     dado.position.set(0, 10.6, -3.39);
     this.root.add(dado);
@@ -86,7 +154,7 @@ export class Laboratory {
     // bench carcass and black epoxy top
     const carcass = new THREE.Mesh(
       new THREE.BoxGeometry(20, 8.6, 5.4),
-      new THREE.MeshStandardMaterial({ color: 0x8c6d4f, roughness: 0.8 }),
+      new THREE.MeshStandardMaterial({ color: 0x8a6c4e, roughness: 0.72 }),
     );
     carcass.position.set(0, 4.3, -0.6);
     carcass.castShadow = true; carcass.receiveShadow = true;
@@ -94,7 +162,13 @@ export class Laboratory {
 
     const top = new THREE.Mesh(
       new THREE.BoxGeometry(20.6, 0.4, 5.8),
-      new THREE.MeshStandardMaterial({ color: 0x2b2f31, roughness: 0.45, metalness: 0.05 }),
+      new THREE.MeshPhysicalMaterial({
+        color: 0x1b2022,
+        roughness: 0.22,
+        metalness: 0.05,
+        clearcoat: 0.4,
+        clearcoatRoughness: 0.16,
+      }),
     );
     top.position.set(0, BENCH_TOP_Y - 0.2, -0.6);
     top.receiveShadow = true; top.castShadow = true;
@@ -105,18 +179,18 @@ export class Laboratory {
     for (let i = -4; i <= 4; i++) {
       const d = new THREE.Mesh(
         new THREE.BoxGeometry(2.2, 1.0, 0.08),
-        new THREE.MeshStandardMaterial({ color: 0x9a7a58, roughness: 0.7 }),
+        new THREE.MeshStandardMaterial({ color: 0x9a7a58, roughness: 0.65 }),
       );
       d.position.set(i * 2.35, 7.6, 2.05);
       this.root.add(d);
-      const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.9, 10), MATERIALS.steel);
+      const handle = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.9, 14), MATERIALS.steel);
       handle.rotation.z = Math.PI / 2;
       handle.position.set(i * 2.35, 7.6, 2.12);
       this.root.add(handle);
     }
 
     // wall shelf with spare stock bottles
-    const shelfMat = new THREE.MeshStandardMaterial({ color: 0xe6e2d8, roughness: 0.7 });
+    const shelfMat = new THREE.MeshStandardMaterial({ color: 0xeae6dc, roughness: 0.65 });
     const shelf = new THREE.Mesh(new THREE.BoxGeometry(19, 0.16, 1.5), shelfMat);
     shelf.position.set(0, 13.4, -2.8);
     shelf.castShadow = true; shelf.receiveShadow = true;
@@ -140,7 +214,7 @@ export class Laboratory {
     // sink at the right-hand end of the bench
     const sink = new THREE.Mesh(
       new THREE.BoxGeometry(2.4, 0.5, 1.8),
-      new THREE.MeshStandardMaterial({ color: 0xa7adb0, roughness: 0.35, metalness: 0.7 }),
+      new THREE.MeshStandardMaterial({ color: 0x949fa6, roughness: 0.22, metalness: 0.85 }),
     );
     sink.position.set(8.9, BENCH_TOP_Y - 0.25, -1.1);
     this.root.add(sink);
@@ -148,7 +222,7 @@ export class Laboratory {
       new THREE.Vector3(8.9, BENCH_TOP_Y, -2.0), new THREE.Vector3(8.9, BENCH_TOP_Y + 1.4, -2.0),
       new THREE.Vector3(8.9, BENCH_TOP_Y + 1.7, -1.6), new THREE.Vector3(8.9, BENCH_TOP_Y + 1.5, -1.15),
     ]);
-    const tap = new THREE.Mesh(new THREE.TubeGeometry(tapCurve, 20, 0.06, 10, false), MATERIALS.steel);
+    const tap = new THREE.Mesh(new THREE.TubeGeometry(tapCurve, 24, 0.06, 14, false), MATERIALS.steel);
     this.root.add(tap);
   }
 
@@ -162,10 +236,15 @@ export class Laboratory {
     this.add(stand, X, BENCH_TOP_Y, 0);
     this.register('stand', stand);
 
-    // white tile on the stand base — makes the endpoint colour readable
+    // white tile on the stand base — makes the endpoint colour readable (glazed porcelain)
     const tile = new THREE.Mesh(
       new THREE.BoxGeometry(0.75, 0.03, 0.75),
-      new THREE.MeshStandardMaterial({ color: 0xf3f1ea, roughness: 0.6 }),
+      new THREE.MeshPhysicalMaterial({
+        color: 0xfcfbfa,
+        roughness: 0.1,
+        clearcoat: 0.95,
+        clearcoatRoughness: 0.05,
+      }),
     );
     tile.position.set(X, BENCH_TOP_Y + 0.115, 0.02);
     tile.receiveShadow = true;

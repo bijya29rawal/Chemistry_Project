@@ -31,16 +31,18 @@ export class Animator {
   get speed() { return CONFIG.reducedMotion ? 3 : CONFIG.animationSpeed; }
 
   _initEffects() {
-    this.dropGeometry = new THREE.SphereGeometry(0.035, 10, 8);
+    this.dropGeometry = new THREE.SphereGeometry(0.035, 16, 12);
     this.dropMaterialTemplate = new THREE.MeshPhysicalMaterial({
-      color: 0xdff0f6, transparent: true, opacity: 0.9, roughness: 0.1,
+      color: 0xdff0f6, transparent: true, opacity: 0.92, roughness: 0.02,
+      clearcoat: 1.0, clearcoatRoughness: 0.02, ior: 1.333,
     });
 
     // reusable pour stream
-    const streamGeo = new THREE.CylinderGeometry(0.03, 0.045, 1, 10, 1, true);
+    const streamGeo = new THREE.CylinderGeometry(0.03, 0.045, 1, 18, 1, true);
     streamGeo.translate(0, -0.5, 0); // pivot at the top
     this.stream = new THREE.Mesh(streamGeo, new THREE.MeshPhysicalMaterial({
-      color: 0xcfe7f2, transparent: true, opacity: 0.75, roughness: 0.1, depthWrite: false,
+      color: 0xcfe7f2, transparent: true, opacity: 0.82, roughness: 0.02,
+      clearcoat: 0.9, depthWrite: false, ior: 1.333,
     }));
     this.stream.visible = false;
     this.scene.add(this.stream);

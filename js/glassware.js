@@ -18,24 +18,27 @@ import * as THREE from 'three';
 
 export const MATERIALS = {
   glass: new THREE.MeshPhysicalMaterial({
-    color: 0xeaf4f8, transparent: true, opacity: 0.26, roughness: 0.06,
-    metalness: 0, ior: 1.5, clearcoat: 0.6, clearcoatRoughness: 0.08,
+    color: 0xf4f9fc, transparent: true, opacity: 0.28, roughness: 0.03,
+    metalness: 0, ior: 1.52, clearcoat: 1.0, clearcoatRoughness: 0.03,
+    specularIntensity: 1.0, specularColor: new THREE.Color(0xffffff),
     side: THREE.DoubleSide, depthWrite: false,
   }),
   amberGlass: new THREE.MeshPhysicalMaterial({
-    color: 0x8a5a1e, transparent: true, opacity: 0.55, roughness: 0.12,
-    metalness: 0, clearcoat: 0.5, side: THREE.DoubleSide, depthWrite: false,
+    color: 0x945416, transparent: true, opacity: 0.58, roughness: 0.05,
+    metalness: 0, ior: 1.54, clearcoat: 1.0, clearcoatRoughness: 0.04,
+    specularIntensity: 1.0, specularColor: new THREE.Color(0xffffff),
+    side: THREE.DoubleSide, depthWrite: false,
   }),
   frosted: new THREE.MeshStandardMaterial({
-    color: 0xd9e4e8, transparent: true, opacity: 0.55, roughness: 0.65,
+    color: 0xd9e4e8, transparent: true, opacity: 0.55, roughness: 0.55,
   }),
-  steel: new THREE.MeshStandardMaterial({ color: 0xb9c0c6, roughness: 0.32, metalness: 0.9 }),
-  darkSteel: new THREE.MeshStandardMaterial({ color: 0x5d666d, roughness: 0.4, metalness: 0.8 }),
-  plasticWhite: new THREE.MeshStandardMaterial({ color: 0xe8e9e4, roughness: 0.55, metalness: 0.02 }),
-  plasticBlue: new THREE.MeshStandardMaterial({ color: 0x2c5f86, roughness: 0.5, metalness: 0.05 }),
-  plasticBlack: new THREE.MeshStandardMaterial({ color: 0x2a2d31, roughness: 0.6, metalness: 0.08 }),
-  rubber: new THREE.MeshStandardMaterial({ color: 0x3a3d40, roughness: 0.85, metalness: 0 }),
-  ptfe: new THREE.MeshStandardMaterial({ color: 0xf1f1ee, roughness: 0.35, metalness: 0 }),
+  steel: new THREE.MeshStandardMaterial({ color: 0xd2d7dc, roughness: 0.18, metalness: 0.95 }),
+  darkSteel: new THREE.MeshStandardMaterial({ color: 0x474e54, roughness: 0.32, metalness: 0.88 }),
+  plasticWhite: new THREE.MeshStandardMaterial({ color: 0xf2f3ef, roughness: 0.35, metalness: 0.02 }),
+  plasticBlue: new THREE.MeshStandardMaterial({ color: 0x225c8a, roughness: 0.38, metalness: 0.04 }),
+  plasticBlack: new THREE.MeshStandardMaterial({ color: 0x1f2224, roughness: 0.45, metalness: 0.06 }),
+  rubber: new THREE.MeshStandardMaterial({ color: 0x2e3033, roughness: 0.82, metalness: 0 }),
+  ptfe: new THREE.MeshStandardMaterial({ color: 0xfbfbf9, roughness: 0.22, metalness: 0 }),
   cork: new THREE.MeshStandardMaterial({ color: 0xb98a55, roughness: 0.8 }),
 };
 
@@ -51,11 +54,11 @@ const nextId = (prefix) => `${prefix}_${++uid}`;
  * Geometry is created once; filling only changes scale.y, never geometry.
  */
 export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0xbfe2f0, opacity = 0.82 }) {
-  const geo = new THREE.CylinderGeometry(rTop, rBottom, 1, 28, 1, false);
+  const geo = new THREE.CylinderGeometry(rTop, rBottom, 1, 48, 1, false);
   geo.translate(0, 0.5, 0); // pivot at the base
   const mat = new THREE.MeshPhysicalMaterial({
-    color, transparent: true, opacity, roughness: 0.14, metalness: 0,
-    clearcoat: 0.4, depthWrite: false,
+    color, transparent: true, opacity, roughness: 0.02, metalness: 0,
+    clearcoat: 0.9, clearcoatRoughness: 0.02, ior: 1.333, depthWrite: false,
   });
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.y = yBase;
@@ -86,7 +89,7 @@ export function makeLiquid({ rTop, rBottom, maxHeight, yBase, color = 0xbfe2f0, 
 /* Small shared helpers                                                */
 /* ------------------------------------------------------------------ */
 
-function lathe(points, segments = 32, material = MATERIALS.glass) {
+function lathe(points, segments = 48, material = MATERIALS.glass) {
   const geo = new THREE.LatheGeometry(points, segments);
   const mesh = new THREE.Mesh(geo, material);
   mesh.castShadow = true;
@@ -96,57 +99,84 @@ function lathe(points, segments = 32, material = MATERIALS.glass) {
 
 function vec(x, y) { return new THREE.Vector2(x, y); }
 
-/** Canvas-drawn graduation strip used by the burette and cylinders. */
+/** Canvas-drawn graduation strip used by the burette and cylinders. (Ultra-crisp 4K HD) */
 function graduationTexture({ top = 0, bottom = 50, step = 5, minor = 1, flip = false }) {
-  const w = 128, h = 1024;
+  const w = 512, h = 4096;
   const canvas = document.createElement('canvas');
   canvas.width = w; canvas.height = h;
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, w, h);
-  ctx.strokeStyle = '#1d2b33';
-  ctx.fillStyle = '#1d2b33';
-  ctx.font = '600 34px "IBM Plex Mono", monospace';
+  ctx.strokeStyle = '#101c24';
+  ctx.fillStyle = '#101c24';
+  ctx.font = '700 86px "IBM Plex Mono", monospace';
   ctx.textBaseline = 'middle';
 
   const range = bottom - top;
   for (let v = top; v <= bottom + 1e-6; v += minor) {
     const t = (v - top) / range;
-    const y = flip ? (1 - t) * h : t * h;
+    const y = flip ? (1 - t) * (h - 80) + 40 : t * (h - 80) + 40;
     const isMajor = Math.abs(v % step) < 1e-6;
     const isMid = Math.abs(v % (step / 5)) < 1e-6;
-    ctx.lineWidth = isMajor ? 4 : 2.5;
+    ctx.lineWidth = isMajor ? 10 : isMid ? 6.5 : 4;
     ctx.beginPath();
-    ctx.moveTo(6, y);
-    ctx.lineTo(isMajor ? 62 : isMid ? 42 : 30, y);
+    ctx.moveTo(16, y);
+    ctx.lineTo(isMajor ? 200 : isMid ? 140 : 90, y);
     ctx.stroke();
-    if (isMajor) ctx.fillText(String(Math.round(v)), 70, y);
+    if (isMajor) ctx.fillText(String(Math.round(v)), 225, y);
   }
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
+  tex.anisotropy = 16;
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
   return tex;
 }
 
-/** Printed paper label wrapped on a bottle. */
+/** Printed paper label wrapped on a bottle. (Ultra-crisp HD) */
 function labelTexture(title, subtitle, accent = '#1f4f6d') {
-  const w = 512, h = 256;
+  const w = 1024, h = 512;
   const canvas = document.createElement('canvas');
   canvas.width = w; canvas.height = h;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#f7f4ec';
+  ctx.fillStyle = '#f8f6f0';
   ctx.fillRect(0, 0, w, h);
+
+  // Border outline
+  ctx.strokeStyle = '#c4c8c2';
+  ctx.lineWidth = 6;
+  ctx.strokeRect(10, 10, w - 20, h - 20);
+
+  // Accent headers
   ctx.fillStyle = accent;
-  ctx.fillRect(0, 0, w, 14);
-  ctx.fillRect(0, h - 10, w, 10);
-  ctx.fillStyle = '#16232b';
-  ctx.font = '700 54px "IBM Plex Sans", sans-serif';
+  ctx.fillRect(10, 10, w - 20, 32);
+  ctx.fillRect(10, h - 26, w - 20, 16);
+
+  ctx.fillStyle = '#12191f';
+  ctx.font = '700 84px "IBM Plex Sans", sans-serif';
   ctx.textAlign = 'center';
-  ctx.fillText(title, w / 2, 100);
-  ctx.fillStyle = '#5a6a72';
-  ctx.font = '400 34px "IBM Plex Mono", monospace';
-  ctx.fillText(subtitle, w / 2, 160);
+  ctx.textBaseline = 'middle';
+  ctx.fillText(title, w / 2, 185);
+
+  ctx.strokeStyle = '#d0d5d0';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(w * 0.15, 270);
+  ctx.lineTo(w * 0.85, 270);
+  ctx.stroke();
+
+  ctx.fillStyle = '#45535c';
+  ctx.font = '600 52px "IBM Plex Mono", monospace';
+  ctx.fillText(subtitle, w / 2, 345);
+
+  ctx.fillStyle = '#7a8c94';
+  ctx.font = '500 30px "IBM Plex Sans", sans-serif';
+  ctx.fillText('ANALYTICAL REAGENT — FOR LAB USE ONLY', w / 2, 425);
+
   const tex = new THREE.CanvasTexture(canvas);
   tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 16;
+  tex.generateMipmaps = true;
+  tex.minFilter = THREE.LinearMipmapLinearFilter;
   return tex;
 }
 
@@ -171,11 +201,11 @@ export function createBeaker({ name = 'Beaker', capacity = 250, radius = 0.35, h
     vec(0, 0), vec(radius, 0), vec(radius, height), vec(radius - t, height),
     vec(radius - t, t * 2), vec(0, t * 2),
   ];
-  g.add(lathe(profile, 40));
+  g.add(lathe(profile, 48));
 
   // spout
   const spout = new THREE.Mesh(
-    new THREE.TorusGeometry(radius * 0.22, 0.02, 8, 16, Math.PI),
+    new THREE.TorusGeometry(radius * 0.22, 0.02, 10, 24, Math.PI),
     MATERIALS.glass,
   );
   spout.rotation.x = Math.PI / 2;
@@ -217,14 +247,14 @@ export function createConicalFlask({ name = 'Conical flask', capacity = 250, act
     vec(neckR + 0.03, bodyH + neckH - 0.03),
     vec(neckR - t, bodyH + 0.02), vec(R - t, 0.08), vec(R - t, t), vec(0, t),
   ];
-  g.add(lathe(outer, 44));
+  g.add(lathe(outer, 54));
 
   const liquid = makeLiquid({
     rTop: R * 0.72, rBottom: R - t * 1.4, maxHeight: bodyH * 0.8, yBase: t, color: 0xcfe7f2,
   });
   // slight cone so the liquid follows the flask wall
   liquid.mesh.geometry.dispose();
-  const lg = new THREE.CylinderGeometry(R * 0.55, R - t * 1.4, 1, 36, 1, false);
+  const lg = new THREE.CylinderGeometry(R * 0.55, R - t * 1.4, 1, 48, 1, false);
   lg.translate(0, 0.5, 0);
   liquid.mesh.geometry = lg;
   g.add(liquid.mesh);
@@ -258,9 +288,9 @@ export function createVolumetricFlask({ name = 'Volumetric flask 1000 mL', actio
   }
   pts.push(vec(neckR, bulbH + 0.12), vec(neckR, bulbH + neckH), vec(neckR + 0.028, bulbH + neckH));
   pts.push(vec(neckR - t, bulbH + neckH - 0.02), vec(neckR - t, bulbH + 0.1), vec(R - t, 0.12), vec(0, t));
-  g.add(lathe(pts, 44));
+  g.add(lathe(pts, 54));
 
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(neckR + 0.004, 0.006, 6, 30), MATERIALS.frosted);
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(neckR + 0.004, 0.006, 8, 36), MATERIALS.frosted);
   ring.rotation.x = Math.PI / 2;
   ring.position.y = bulbH + neckH * 0.55;
   g.add(ring);
@@ -284,10 +314,10 @@ export function createVolumetricFlask({ name = 'Volumetric flask 1000 mL', actio
 export function createMeasuringCylinder({ name = 'Measuring cylinder 100 mL', capacity = 100, action = 'CYLINDER' } = {}) {
   const g = new THREE.Group();
   const R = 0.19, H = 1.0, t = 0.01;
-  const base = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.8, R * 1.9, 0.06, 32), MATERIALS.glass);
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.8, R * 1.9, 0.06, 48), MATERIALS.glass);
   base.position.y = 0.03;
   g.add(base);
-  g.add(lathe([vec(0, 0.06), vec(R, 0.06), vec(R, H), vec(R - t, H), vec(R - t, 0.08), vec(0, 0.08)], 36));
+  g.add(lathe([vec(0, 0.06), vec(R, 0.06), vec(R, H), vec(R - t, H), vec(R - t, 0.08), vec(0, 0.08)], 48));
 
   const liquid = makeLiquid({ rTop: R - t * 1.5, rBottom: R - t * 1.5, maxHeight: H - 0.14, yBase: 0.08, color: 0xcfe7f2 });
   g.add(liquid.mesh);
@@ -319,16 +349,16 @@ export function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   const barrel = lathe([
     vec(0, 0.28), vec(R, 0.3), vec(R, barrelH), vec(R + 0.026, barrelH + 0.04),
     vec(R + 0.026, barrelH + 0.09), vec(R - t, barrelH + 0.05), vec(R - t, 0.32), vec(0, 0.3),
-  ], 30);
+  ], 48);
   g.add(barrel);
 
   // stopcock body and PTFE key
-  const stopBody = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.25, R * 1.25, 0.17, 20), MATERIALS.glass);
+  const stopBody = new THREE.Mesh(new THREE.CylinderGeometry(R * 1.25, R * 1.25, 0.17, 32), MATERIALS.glass);
   stopBody.position.y = 0.2;
   g.add(stopBody);
 
   const key = new THREE.Group();
-  const keyBarrel = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.03, 0.34, 16), MATERIALS.ptfe);
+  const keyBarrel = new THREE.Mesh(new THREE.CylinderGeometry(0.036, 0.03, 0.34, 24), MATERIALS.ptfe);
   keyBarrel.rotation.z = Math.PI / 2;
   key.add(keyBarrel);
   const handle = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.1, 0.2), MATERIALS.ptfe);
@@ -338,13 +368,13 @@ export function createBurette({ name = 'Burette 50 mL', capacity = 50 } = {}) {
   g.add(key);
 
   // delivery tip
-  const tip = lathe([vec(0, 0), vec(0.028, 0.0), vec(0.028, 0.1), vec(0.016, 0.16), vec(0.016, 0.2), vec(0, 0.2)], 16);
+  const tip = lathe([vec(0, 0), vec(0.028, 0.0), vec(0.028, 0.1), vec(0.016, 0.16), vec(0.016, 0.2), vec(0, 0.2)], 28);
   tip.position.y = 0.0;
   const tipGroup = new THREE.Group();
   tipGroup.add(tip);
   tipGroup.position.y = -0.09;
   g.add(tipGroup);
-  const taper = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.9, 0.03, 0.14, 16), MATERIALS.glass);
+  const taper = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.9, 0.03, 0.14, 28), MATERIALS.glass);
   taper.position.y = 0.08;
   g.add(taper);
 
@@ -475,10 +505,10 @@ export function createReagentBottle({
     vec(neckR, height * 0.86), vec(neckR, height),
     vec(neckR - 0.01, height), vec(neckR - 0.01, height * 0.87),
     vec(radius - 0.012, height * 0.73), vec(radius - 0.012, 0.03), vec(0, 0.015),
-  ], 32, bodyMat);
+  ], 48, bodyMat);
   g.add(body);
 
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(neckR + 0.022, neckR + 0.022, 0.13, 20), MATERIALS.plasticWhite);
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(neckR + 0.022, neckR + 0.022, 0.13, 32), MATERIALS.plasticWhite);
   cap.position.y = height + 0.045;
   cap.castShadow = true;
   g.add(cap);
@@ -514,18 +544,18 @@ export function createWashBottle({ name = 'Wash bottle (distilled water)' } = {}
   const body = lathe([
     vec(0, 0), vec(R, 0.04), vec(R, H * 0.78), vec(R * 0.45, H * 0.92), vec(R * 0.45, H),
     vec(R * 0.45 - 0.01, H), vec(R * 0.45 - 0.01, H * 0.93), vec(R - 0.012, H * 0.79), vec(R - 0.012, 0.05), vec(0, 0.02),
-  ], 28, new THREE.MeshPhysicalMaterial({
-    color: 0xe9f2f5, transparent: true, opacity: 0.4, roughness: 0.25, side: THREE.DoubleSide, depthWrite: false,
+  ], 44, new THREE.MeshPhysicalMaterial({
+    color: 0xe9f2f5, transparent: true, opacity: 0.4, roughness: 0.2, clearcoat: 0.6, side: THREE.DoubleSide, depthWrite: false,
   }));
   g.add(body);
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.5, R * 0.5, 0.1, 18), MATERIALS.plasticBlue);
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(R * 0.5, R * 0.5, 0.1, 28), MATERIALS.plasticBlue);
   cap.position.y = H + 0.04; g.add(cap);
   const spoutCurve = new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, H + 0.09, 0), new THREE.Vector3(0, H + 0.3, 0),
     new THREE.Vector3(0.08, H + 0.42, 0), new THREE.Vector3(0.28, H + 0.3, 0),
     new THREE.Vector3(0.3, H + 0.02, 0),
   ]);
-  const spout = new THREE.Mesh(new THREE.TubeGeometry(spoutCurve, 24, 0.022, 10, false), MATERIALS.plasticBlue);
+  const spout = new THREE.Mesh(new THREE.TubeGeometry(spoutCurve, 28, 0.022, 14, false), MATERIALS.plasticBlue);
   g.add(spout);
   const liquid = makeLiquid({ rTop: R - 0.02, rBottom: R - 0.02, maxHeight: H * 0.7, yBase: 0.04, color: 0xdff0f6 });
   liquid.setFill(0.8);
@@ -538,15 +568,15 @@ export function createWashBottle({ name = 'Wash bottle (distilled water)' } = {}
 export function createFunnel({ name = 'Glass funnel' } = {}) {
   const g = new THREE.Group();
   g.add(lathe([vec(0, 0), vec(0.04, 0), vec(0.04, 0.34), vec(0.34, 0.6), vec(0.34, 0.615),
-    vec(0.032, 0.35), vec(0.032, 0.0)], 28));
+    vec(0.032, 0.35), vec(0.032, 0.0)], 36));
   return tagGroup(g, { name, type: 'funnel', action: 'FUNNEL' });
 }
 
 export function createGlassRod({ name = 'Glass stirring rod' } = {}) {
   const g = new THREE.Group();
   const geo = typeof THREE.CapsuleGeometry === 'function'
-    ? new THREE.CapsuleGeometry(0.022, 0.9, 6, 12)
-    : new THREE.CylinderGeometry(0.022, 0.022, 0.95, 12);
+    ? new THREE.CapsuleGeometry(0.022, 0.9, 12, 20)
+    : new THREE.CylinderGeometry(0.022, 0.022, 0.95, 20);
   const rod = new THREE.Mesh(geo, MATERIALS.glass);
   rod.castShadow = true;
   g.add(rod);
@@ -555,9 +585,9 @@ export function createGlassRod({ name = 'Glass stirring rod' } = {}) {
 
 export function createDropper({ name = 'Dropper' } = {}) {
   const g = new THREE.Group();
-  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.008, 0.42, 12), MATERIALS.glass);
+  const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.008, 0.42, 20), MATERIALS.glass);
   stem.position.y = 0.21; g.add(stem);
-  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), MATERIALS.rubber);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.06, 24, 18), MATERIALS.rubber);
   bulb.position.y = 0.48; bulb.scale.y = 1.35; g.add(bulb);
   return tagGroup(g, { name, type: 'dropper', action: 'DROPPER' });
 }
@@ -569,8 +599,8 @@ export function createDropper({ name = 'Dropper' } = {}) {
 export function createSampleVial({ name = 'Turbidity sample vial' } = {}) {
   const g = new THREE.Group();
   const R = 0.11, H = 0.5;
-  g.add(lathe([vec(0, 0), vec(R, 0.01), vec(R, H), vec(R - 0.008, H), vec(R - 0.008, 0.02), vec(0, 0.012)], 24));
-  const cap = new THREE.Mesh(new THREE.CylinderGeometry(R + 0.012, R + 0.012, 0.08, 18), MATERIALS.plasticBlack);
+  g.add(lathe([vec(0, 0), vec(R, 0.01), vec(R, H), vec(R - 0.008, H), vec(R - 0.008, 0.02), vec(0, 0.012)], 36));
+  const cap = new THREE.Mesh(new THREE.CylinderGeometry(R + 0.012, R + 0.012, 0.08, 28), MATERIALS.plasticBlack);
   cap.position.y = H + 0.03; g.add(cap);
   const liquid = makeLiquid({ rTop: R - 0.014, rBottom: R - 0.014, maxHeight: H - 0.08, yBase: 0.02, color: 0xd8e7e2 });
   g.add(liquid.mesh);
