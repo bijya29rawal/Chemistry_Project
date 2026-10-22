@@ -62,13 +62,18 @@ function boot() {
   loop();
 
   let resizeTimer = null;
-  window.addEventListener('resize', () => {
+  const onResize = () => {
     if (resizeTimer) cancelAnimationFrame(resizeTimer);
     resizeTimer = requestAnimationFrame(() => {
       labCamera.resize();
       labScene.resize();
     });
-  });
+  };
+  window.addEventListener('resize', onResize);
+  if (typeof ResizeObserver !== 'undefined') {
+    const ro = new ResizeObserver(onResize);
+    ro.observe(container);
+  }
 
   // hide the loading veil once the first frame is on screen
   requestAnimationFrame(() => {

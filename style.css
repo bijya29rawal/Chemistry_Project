@@ -25,12 +25,18 @@
 * { box-sizing: border-box; }
 
 html, body {
-  margin: 0; height: 100%;
+  margin: 0; height: 100%; width: 100%;
   background: var(--bench);
   color: var(--ink);
   font-family: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 14px;
   line-height: 1.5;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, monospace; font-variant-numeric: tabular-nums; }
@@ -54,43 +60,58 @@ html, body {
 
 /* ---------------- top bar ---------------- */
 #topbar {
-  height: 48px;
+  flex: 0 0 auto;
+  min-height: 48px;
   display: flex; align-items: center; justify-content: space-between;
-  gap: 16px; padding: 0 16px;
+  gap: 12px; padding: 6px 16px;
   background: var(--bench-soft);
   color: #e7ece9;
   border-bottom: 1px solid #0f1416;
+  box-sizing: border-box;
+  z-index: 10;
 }
-.brand { display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .brand .mark {
-  display: grid; place-items: center;
-  width: 38px; height: 38px; border-radius: 3px;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 4px;
   background: #0f1416; color: #7fd3bb;
   font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 13px;
+  flex-shrink: 0; user-select: none;
 }
-.brand strong { display: block; font-size: 15px; letter-spacing: .005em; }
-.brand em { display: block; font-style: normal; font-size: 12px; color: #9fada9; }
+.brand .mark-text {
+  display: inline-flex; align-items: baseline; line-height: 1; white-space: nowrap;
+}
+.brand .mark-text sub {
+  font-size: 9px; line-height: 1; margin: 0 1px;
+}
+.brand strong { display: block; font-size: 14.5px; letter-spacing: .005em; white-space: nowrap; }
+.brand em { display: block; font-style: normal; font-size: 11.5px; color: #9fada9; white-space: nowrap; }
 
-.topbar-controls { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+.topbar-controls {
+  display: flex; align-items: center; gap: 8px; row-gap: 6px;
+  flex-wrap: wrap; justify-content: flex-end;
+}
 
 .segmented { display: inline-flex; background: #10171a; border-radius: 3px; padding: 2px; }
 .segmented button {
   border: 0; background: transparent; color: #9fada9;
   font: inherit; font-size: 12.5px; padding: 5px 10px; border-radius: 2px; cursor: pointer;
+  white-space: nowrap;
 }
 .segmented button:hover { color: #e7ece9; }
 .segmented button.active { background: #2c3a3d; color: #8fe0c6; }
 .segmented.small button { padding: 4px 9px; font-size: 12px; }
 
-.field, .checkfield { font-size: 12.5px; color: #9fada9; display: inline-flex; align-items: center; gap: 6px; }
+.field, .checkfield { font-size: 12.5px; color: #9fada9; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
 .field select {
   font: inherit; font-size: 12.5px; padding: 4px 6px;
   background: #10171a; color: #e7ece9; border: 1px solid #2c3a3d; border-radius: 3px;
 }
 
 .pill {
-  font: inherit; font-size: 12.5px; padding: 7px 14px; cursor: pointer;
+  font: inherit; font-size: 12.5px; padding: 6px 13px; cursor: pointer;
   border-radius: 3px; border: 1px solid #36454a; background: #10171a; color: #dfe7e4;
+  white-space: nowrap;
 }
 .pill:hover { background: #182226; }
 .pill.active { background: var(--amber); border-color: var(--amber); color: #1b1204; }
@@ -99,7 +120,9 @@ html, body {
 
 /* ---------------- layout ---------------- */
 #app {
-  height: calc(100% - 48px);
+  flex: 1 1 0;
+  min-height: 0;
+  height: auto;
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr) 280px;
   grid-template-rows: minmax(0, 1fr) 112px;
@@ -305,19 +328,32 @@ table.data thead th { color: var(--ink); border-bottom: 1px solid var(--ink-soft
 /* ---------------- accessibility & narrow screens ---------------- */
 :focus-visible { outline: 2px solid var(--amber); outline-offset: 1px; }
 
+@media (max-width: 1420px) {
+  .brand em { display: none; }
+  .topbar-controls { gap: 6px; }
+  .segmented button { padding: 4px 8px; font-size: 12px; }
+  .pill { padding: 5px 11px; font-size: 12px; }
+  .field, .checkfield { font-size: 12px; }
+}
+
 @media (max-width: 1240px) {
   #app { grid-template-columns: 180px minmax(0,1fr) 250px; }
+  .checkfield { font-size: 11.5px; }
 }
+
 @media (max-width: 1024px) {
+  body, html { height: auto; min-height: 100%; overflow: auto; }
+  body { display: block; }
   #app {
+    display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 60vh auto auto auto;
     grid-template-areas: "centre" "right" "left" "bottom";
     height: auto;
+    min-height: calc(100vh - 48px);
   }
-  body, html { height: auto; }
   #bottom { grid-template-columns: 1fr; }
-  #topbar { height: auto; flex-wrap: wrap; padding: 10px 12px; gap: 10px; }
+  #topbar { padding: 10px 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
